@@ -1,0 +1,78 @@
+
+
+<?php
+use Sys\Component\ButtonComponent;
+use Sys\Component\InputComponent;
+use Sys\Component\ComboboxComponent;
+
+?>
+
+<ul>
+    <h1>LISTAS Usuarios</h1>
+    <?php if($users): foreach($users as $user): ?>
+        <?php if($user->idUsuario):?>
+        <div class='card'>
+            <div>         
+            <li>Name: <?=$user->nomeUsuario; ?></li>  
+            <li>Last Name: <?=$user->lastName; ?></li>
+            <li>Type: <?=$user->userType; ?></li>
+            </div>
+
+            <div class='btn-menu'>
+            <?=ButtonComponent::render("Edit", "btn-primary", ['id' => 'btn-edit'.$user->idUsuario, 'onClick' =>'jsEdit('.$user->idUsuario.')'])?>
+            <?=ButtonComponent::render("X", "btn-warning" ,['id' => 'btn-delete'.$user->idUsuario, 'onClick' =>'jsDelete('.$user->idUsuario.')'])?>
+
+            <form action="/user/remove/<?=$user->idUsuario?>" id="delete-form-<?=$user->idUsuario?>" method="post" style='display:none'>
+            <p>Tem certeza de que deseja excluir o usuário <?=$user->nomeUsuario; ?></p>
+            <input type="submit" value="Sim, excluir">
+            </form>
+
+            </div>
+        </div>
+        <br />
+        <?php endif?>
+        <?php endforeach; ?>
+
+
+
+
+    <?php endif?>
+
+</ul>
+<style>
+.card{
+    width: 30%;
+    display: flex;
+}
+.btn-menu{
+    position: absolute;
+    width: 150px;
+    left: calc(100% - 75px);
+}
+
+</style>
+<script>
+function jsEdit(id)
+{
+   window.location.href = 'user/'+id; 
+
+}
+function jsDelete(id)
+{
+    const form =  document.getElementById('delete-form-'+id);
+    form.style.display ='flex';
+}
+
+// document.getElementsByClassName('btn-primary').onclick = function() {
+//     // Redirecionar o usuário para a rota desejada
+//     const userId = parseInt(this.getAttribute("userId"));
+//     window.location.href = 'user/'+userId; // Substitua 'rota-desejada.php' pela rota que você quer chamar
+// };
+
+// document.getElementById('btn-delete').onclick = function() {
+//     // Redirecionar o usuário para a rota desejada
+//     alert('hehehe');
+//     const userId = parseInt(this.getAttribute("userId"));
+//     window.location.href = 'user/remove/'+userId; // Substitua 'rota-desejada.php' pela rota que você quer chamar
+// };
+</script>

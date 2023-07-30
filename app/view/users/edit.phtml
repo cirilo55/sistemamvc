@@ -1,0 +1,93 @@
+
+<?php
+use Sys\Component\ButtonComponent;
+use Sys\Component\InputComponent;
+use Sys\Component\ComboboxComponent;
+
+?>
+<body>
+    <div class="stage-center">
+
+        <form action="/users/submitUpdate" method="POST">
+            <div class="login-box">
+        
+            <div class="form-border">
+            <h1>User Add</h1>   
+            <?=var_dump($user)?>
+
+                    <div class="center form-inputs">
+                    <div class="input-box" style="display: none;">
+                        <?=InputComponent::render("idUsuario", "number", $user->idUsuario, "")?>
+                    </div>
+
+                    <div class="input-box">
+                        <label for="role">Nome:</label>
+                        <?=InputComponent::render("nomeUsuario", "text", $user->nomeUsuario, ["placeholder" => "digite aqui o nome"])?>
+                    </div>
+                        
+                    <div class="input-box">
+                        <label for="role">Sobrenome:</label>
+                        <?=InputComponent::render("lastName", "text", $user->lastName, ["placeholder" => "digite aqui o sobrenome"])?>
+                    </div>
+
+                    <div class="input-box">
+                        <label for="role">Senha:</label>
+                        <?=InputComponent::render("password", "password", "", ["placeholder" => "digite aqui a senha"])?>
+                    </div>
+
+                    
+                    <div class="input-box">
+                        <label for="role">Repetir Senha:</label>
+                        <?=InputComponent::render("password", "re-password", "", ["placeholder" => "repita aqui a senha"])?>
+                    </div>
+
+                    <div class="input-box">
+                        <label for="role">Função:</label>
+                        <?php
+                        $roles = [
+                            '0' => 'Administrador',
+                            '1' => 'Usuário',
+                            '2' => 'Visitante'
+                        ];
+                        ?>
+                        <?=ComboboxComponent::render('role', $roles, $user->userType, ['id' => 'role'])?>
+                    </div>
+                    </div>
+                    <div class="center">
+                    <?=ButtonComponent::render("Enter", "btn-primary full-btn")?>
+                    </div>
+            </div>
+            
+
+        </form>
+
+    </div>
+
+</body>
+<style>
+    label{
+        width: 100%;
+    }
+    .login-box{
+        height: 80vh;
+        width: 20vw;
+    }
+    .input-box{
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    .form-border
+    {
+        border: 1px solid black;
+
+    }
+    .full-btn{
+        width: 80%;
+    }
+    .form-inputs{
+        width: calc(100%-1rem); ;
+    }
+
+
+</style>
+<html>

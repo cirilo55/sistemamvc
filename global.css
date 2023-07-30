@@ -1,0 +1,63 @@
+
+ /* @import url('https://fonts.googleapis.com/css2?family=Imperial+Script&display=swap'); */
+
+:root{
+    --bg-color: white;
+    --main-font: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    --font-bicha: 'Imperial Script', cursive;
+}
+body{
+    background-color: var(--bg-color);
+    height: 100vh; /* For 100% screen height */
+    width:  100vw;
+}
+.navbar
+{
+    background-color: antiquewhite;
+}
+
+.container .mainarea
+{
+    background-color: var(--bg-color);
+    width: 1000px;
+    height: 1000px;
+    
+}
+.mainpainel
+{
+    display: flex;
+    justify-content: center;
+    margin: 10px ;
+}
+.container .h1
+{
+   font-family: var(--main-font);
+   color: antiquewhite;
+}
+
+.maintext 
+{
+    margin: 0 10rem;
+
+}
+.maintext
+{
+    font-family: var(--font-bicha);
+    font-size: 20px;
+    color: whitesmoke
+}
+.stage-center{
+    display: grid;
+    place-items: center;
+    height: 90vh;
+}
+.center{
+    display: grid;
+    place-items:center;
+}
+/** Classes do Header **/
+
+.nav {
+    height: 10vh;
+    background-color: black;
+}
