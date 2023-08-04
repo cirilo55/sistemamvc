@@ -13,8 +13,6 @@ use Sys\Component\ComboboxComponent;
         
             <div class="form-border">
             <h1>User Add</h1>   
-            <?=var_dump($user)?>
-
                     <div class="center form-inputs">
                     <div class="input-box" style="display: none;">
                         <?=InputComponent::render("idUsuario", "number", $user->idUsuario, "")?>
@@ -52,6 +50,11 @@ use Sys\Component\ComboboxComponent;
                         ?>
                         <?=ComboboxComponent::render('role', $roles, $user->userType, ['id' => 'role'])?>
                     </div>
+
+                    <div class="input-box">
+                        <input type="file" id="image" name="image" accept="image/*">
+                    </div>
+                    
                     </div>
                     <div class="center">
                     <?=ButtonComponent::render("Enter", "btn-primary full-btn")?>

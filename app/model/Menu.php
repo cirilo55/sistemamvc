@@ -1,16 +1,15 @@
 <?php
-
 namespace App\Model;
 
 use Sys\Model;
 
-class User  extends Model{
+class Menu extends Model{
 
-    protected $table = 'users';
+    protected $table = 'systemModule';
 
-    protected $fillable = ['idUsuario', 'nomeUsuario', 'lastName', 'userType', 'password', 'createdAt', 'updatedAt'];
+    protected $fillable = ['id', 'moduleName', 'order'];
 
-    protected $id = 'idUsuario';
+    protected $id = 'id';
 
     private $data = [];
 
@@ -37,4 +36,8 @@ class User  extends Model{
         $this->data[$name] = $value;
     }
   
+    public function joinModuleItems()
+    {
+        return $this->innerJoin('moduleItem', 'idModulo', $this->id);
+    }
 }

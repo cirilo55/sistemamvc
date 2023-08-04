@@ -1,10 +1,12 @@
 <?php
 use Sys\Router;
 use App\Controller\UserController;
+use App\Controller\MainConfigController;
 
 $router = new Router();
 
 $router->addRoute('GET', '/', function () {
+
 });
 
 $router->addRoute('GET', '/users', function () {
@@ -57,7 +59,11 @@ $router->addRoute('GET', '/SignOut', function () {
     header("Location: /");
 
 });
+$router->addRoute('GET', '/config', function () {
+    $controller = new MainConfigController();
+    $controller->index();
 
+});
 
 // Adicione outras rotas conforme necessário
 

@@ -1,16 +1,15 @@
 <?php
-
 namespace App\Model;
 
 use Sys\Model;
 
-class User  extends Model{
+class MainConfig extends Model{
 
-    protected $table = 'users';
+    protected $table = 'mainConfig';
 
-    protected $fillable = ['idUsuario', 'nomeUsuario', 'lastName', 'userType', 'password', 'createdAt', 'updatedAt'];
+    protected $fillable = ['id', 'mainColor', 'mainPage', 'createdAt', 'updatedAt'];
 
-    protected $id = 'idUsuario';
+    protected $id = 'id';
 
     private $data = [];
 

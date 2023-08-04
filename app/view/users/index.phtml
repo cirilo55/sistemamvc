@@ -8,29 +8,35 @@ use Sys\Component\ComboboxComponent;
 ?>
 
 <ul>
-    <h1>LISTAS Usuarios</h1>
+    <h1>Lista Usuarios</h1>
     <?php if($users): foreach($users as $user): ?>
         <?php if($user->idUsuario):?>
         <div class='card'>
             <div>         
-            <li>Name: <?=$user->nomeUsuario; ?></li>  
-            <li>Last Name: <?=$user->lastName; ?></li>
-            <li>Type: <?=$user->userType; ?></li>
+                <li>Name: <?=$user->nomeUsuario; ?></li>  
+                <li>Last Name: <?=$user->lastName; ?></li>
+                <li>Type: <?=$user->userType; ?></li>
             </div>
 
             <div class='btn-menu'>
-            <?=ButtonComponent::render("Edit", "btn-primary", ['id' => 'btn-edit'.$user->idUsuario, 'onClick' =>'jsEdit('.$user->idUsuario.')'])?>
-            <?=ButtonComponent::render("X", "btn-warning" ,['id' => 'btn-delete'.$user->idUsuario, 'onClick' =>'jsDelete('.$user->idUsuario.')'])?>
-
-            <form action="/user/remove/<?=$user->idUsuario?>" id="delete-form-<?=$user->idUsuario?>" method="post" style='display:none'>
-            <p>Tem certeza de que deseja excluir o usuário <?=$user->nomeUsuario; ?></p>
-            <input type="submit" value="Sim, excluir">
-            </form>
-
+                <?=ButtonComponent::render("Edit", "btn-primary", ['id' => 'btn-edit'.$user->idUsuario, 'onClick' =>'jsEdit('.$user->idUsuario.')'])?>
+                <?=ButtonComponent::render("X", "btn-warning" ,['id' => 'btn-delete'.$user->idUsuario, 'onClick' =>'jsDelete('.$user->idUsuario.')'])?>
             </div>
+
+
         </div>
         <br />
         <?php endif?>
+
+            <div class="center popupContainer" style='display:none'>
+                <form action="/user/remove/<?=$user->idUsuario?>" id="delete-form-<?=$user->idUsuario?>" method="post" >
+                    <p>Tem certeza de que deseja excluir o usuário <?=$user->nomeUsuario; ?></p>
+                    <input type="submit" value="Sim, excluir">
+                    <button id="closePopup">X</button>
+                </form>
+            </div>
+
+
         <?php endforeach; ?>
 
 

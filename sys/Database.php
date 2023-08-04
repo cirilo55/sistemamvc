@@ -45,9 +45,15 @@ class Database
 
     public function query($query)
     {
+        try {
         $stmt = $this->connect()->prepare($query);
         $stmt->execute();
         return $stmt;
+        } catch (PDOException $e) {
+            echo $query.'Erro na consulta: ' . $e->getMessage();
+            return null;
+        }
+
     }
 
     public function execute($query, $params = [])
@@ -71,6 +77,7 @@ class Database
 
         $sql = "INSERT INTO query_history (query_date, query_sql) VALUES (:date, :query)";
         $params = array(':date' => $date, ':query' => $query);        
+
         $this->execute($sql, $params);
     }
 

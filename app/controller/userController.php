@@ -20,8 +20,6 @@ class UserController
     {
         $model = new User;
         $user = $model->find($id);
-        // Carregue a view de exibição do usuário passando os dados
-        // Exemplo: include 'views/users/show.php';
     }
 
     public function add()
@@ -62,8 +60,22 @@ class UserController
         $user->lastName = $_REQUEST['lastName'];
         $user->userType = $_REQUEST['role'];
         $user->password = "'".password_hash($_REQUEST['password'], PASSWORD_DEFAULT)."'";
+        $user->imagePath = $_REQUEST['image'];
+
+        $image_file = $_FILES["image"];
+        var_dump(dirname(__FILE__, 3) . "\imgs\profile" . $_REQUEST['image']);die();
+
+        move_uploaded_file(
+            // Temp image location
+            $image_file["tmp_name"],
+        
+            // New image location, __DIR__ is the location of the current PHP file
+            __DIR__ . "/imgs/profile" . $image_file["name"]
+        );
+        
+        
         $data = $user->getData();
-  
+
    
         $user->update($_REQUEST['idUsuario'],$data);
     }
@@ -80,16 +92,13 @@ class UserController
 
     public function delete($id)
     {
-        // Aqui você pode implementar a lógica para excluir o usuário do banco de dados
         $userModel = new User();
 
-        // Verifica se o usuário existe
         if (!$userModel->find($id)) {
             echo "Usuário não encontrado.";
             return;
         }
 
-        // Realiza a exclusão no banco de dados
         $deleted = $userModel->delete($id);
 
         if ($deleted) {
@@ -98,6 +107,34 @@ class UserController
             echo "Erro ao excluir usuário.";
         }
     }
+
+    // public function handleUpload()
+    // {
+    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //         $targetDir = '/caminho/para/pasta/de/imagens/';
+    //         $targetFile = $targetDir . basename($_FILES['image']['name']);
+    //         $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+
+    //         // Verifica se o arquivo é uma imagem
+    //         if (isset($_POST['submit'])) {
+    //             $check = getimagesize($_FILES['image']['tmp_name']);
+    //             if ($check !== false) {
+    //                 // Move o arquivo temporário para o diretório de destino
+    //                 if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
+    //                     echo "Imagem enviada com sucesso!";
+    //                     // Salve o caminho da imagem no banco de dados usando a função setImagePath() do modelo User
+    //                     $userModel = new User();
+    //                     $userModel->setImagePath($targetFile);
+    //                     // Resto do código para salvar o usuário no banco de dados
+    //                 } else {
+    //                     echo "Erro ao enviar a imagem.";
+    //                 }
+    //             } else {
+    //                 echo "O arquivo não é uma imagem válida.";
+    //             }
+    //         }
+    //     }
+    // }
+
 }
 
-    // Adicione outros métodos conforme necessário
