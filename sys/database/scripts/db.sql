@@ -1,15 +1,17 @@
 create database sistemamvc
-
+-- CREATED AT E UPDATE AT criar rotinas;
 create table users (
 	idUser int PRIMARY KEY AUTO_INCREMENT,
   userName varchar(30),
   lastName varchar(30),
+  userEmail varchar(30),
   password varchar(255),
   userType int,
   imagePath VARCHAR(255),
   createdAt datetime,
-  updatedAt datetime,
+  updatedAt datetime
 )
+
 create table mainConfig(
   	id int PRIMARY KEY AUTO_INCREMENT,
     mainColor varchar(10),
@@ -42,9 +44,15 @@ CREATE TABLE `query_history` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+create table clients(
+   id INT PRIMARY KEY AUTO_INCREMENT,
+  `clientName` varchar(30),
+  createdAt datetime,
+  updatedAt datetime
+)
 /*usertype = 1 (Admin) usetype = 2 (Padrão)*/
 
-INSERT INTO users (idUsuario,nomeUsuario,lastName,userType,password) VALUES (1,'CIRILO','1234',0, '$10$ih5KJrY2j2lJruZYwE451.s2vaRYxT5O3YnSoRi5zqrAMoSWseBzy')
+INSERT INTO users (idUser,userName,lastName,userType,password) VALUES (1,'CIRILO','1234',0, '$10$ih5KJrY2j2lJruZYwE451.s2vaRYxT5O3YnSoRi5zqrAMoSWseBzy')
 Insert into systemModule (id, moduleName, `order`) VALUES (1, 'Operacional', 1);
 Insert into systemModule (id, moduleName, `order`) VALUES (2, 'Configurações', 9);
 Insert into systemModule (id, moduleName, `order`) VALUES (3, 'Dashboards', 2);

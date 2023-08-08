@@ -1,7 +1,5 @@
 <?php
     
-    define('CSS_PATH', 'global.css');
-    session_start();
     $title = false;
 
 ?>
@@ -17,17 +15,17 @@
     <link rel="stylesheet" href="/components.css">
     <link rel="stylesheet" href="/libs/bootstrap-4.5.3-dist/css/bootstrap.min.css">
     <script src="/libs/bootstrap-4.5.3-dist/js/bootstrap.bundle.js"></script>
-    
+    <script src="main.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 </head>
-<div class="nav">
+<header class="nav">
 
 <div class='center'>
-    <div class="hamburguer center">
+    <div class="hamburguer center" onclick="toggleMenu()">
         <div id="bar1" class="bar"></div>
         <div id="bar2" class="bar"></div>
         <div id="bar3" class="bar"></div>
@@ -35,9 +33,9 @@
 </div>
 
 <div class="session">
-    <?php if(empty($_SESSION)){?>
 
-        <img src="" alt="">
+    <?php if(empty($_SESSION)){?>
+        <div class="sign-in">
             <div>
                 No Login / 
             </div>
@@ -46,23 +44,32 @@
                     Sign/In
                 </div>
             </a>
+        </div>
 
     <?php }else{?>
-
+    <div class="profile">
+        <div class="center">
+            <div class="profile-circle">
+             <img src="./imgs/profile/noProfile.png" alt="" height="35" width="35">
+            </div>
+        </div>
+        <div style="display: flex; justify-content:center">
         <a href="/myprofile">
             <div>
-                <?=$_SESSION['nomeUsuario'].'  '?>
+                <?=$_SESSION['userName'] .' '.$_SESSION['lastName']?>
             </div> 
         </a>
-
+        <div> | </div>
         <a href="/SignOut">
             <div>
                 Sign/Out
             </div>
         </a>
+        </div>
+    </div>
 
     <?php }?>
-</div>
-</div>
+    </div>
 
-
+</header>
+</div>

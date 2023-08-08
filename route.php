@@ -2,6 +2,7 @@
 use Sys\Router;
 use App\Controller\UserController;
 use App\Controller\MainConfigController;
+use App\Controller\ClientsController;
 
 $router = new Router();
 
@@ -47,7 +48,7 @@ $router->addRoute('POST', '/users/submit', function () {
     $controller = new UserController();
     $controller->submitForm();
     header("Location: /users");
-
+    exit;
 });
 
 $router->addRoute('GET', '/login', function () {
@@ -56,7 +57,7 @@ $router->addRoute('GET', '/login', function () {
 
 $router->addRoute('GET', '/SignOut', function () {
     session_destroy();
-    header("Location: /");
+    header("Location: /login");
 
 });
 $router->addRoute('GET', '/config', function () {
@@ -64,7 +65,11 @@ $router->addRoute('GET', '/config', function () {
     $controller->index();
 
 });
+$router->addRoute('GET', '/clientes', function () {
+    $controller = new ClientsController();
+    $controller->index();
 
+});
 // Adicione outras rotas conforme necessário
 
 $router->handleRequest();

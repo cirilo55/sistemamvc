@@ -6,13 +6,16 @@ class UserController
 {
 
     public function index()
-    {
+    {                       
 
         $model = new User;
         $users = $model->all();
-
+        $nameType = array('Administrador', 'Usuario', 'Visitante');
+        foreach($users as $user)
+        {
+            $user->userType = $nameType[$user->userType];
+        }
         $title = "list User";
-
         include dirname(__FILE__, 2).'\view\users\index.phtml';
     }
 
@@ -40,11 +43,11 @@ class UserController
         $user = new User();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $user->nomeUsuario = "'".$_REQUEST['nomeUsuario']."'" ;
-        $user->lastName = $_REQUEST['lastName'];
+        $user->userName = "'".$_REQUEST['userName']."'" ;
+        $user->lastName = "'".$_REQUEST['lastName']."'";
         $user->userType = $_REQUEST['role'];
         $user->password = "'".password_hash($_REQUEST['password'], PASSWORD_DEFAULT)."'";
-        // var_dump($user);die();
+
         $data = $user->getData();
    
         $user->create($data);
@@ -56,28 +59,28 @@ class UserController
     {
         $user = new User();
 
-        $user->nomeUsuario = "'".$_REQUEST['nomeUsuario']."'" ;
+        $user->userName = "'".$_REQUEST['userName']."'" ;
         $user->lastName = $_REQUEST['lastName'];
         $user->userType = $_REQUEST['role'];
         $user->password = "'".password_hash($_REQUEST['password'], PASSWORD_DEFAULT)."'";
-        $user->imagePath = $_REQUEST['image'];
+        // $user->imagePath = $_REQUEST['image'];
 
-        $image_file = $_FILES["image"];
-        var_dump(dirname(__FILE__, 3) . "\imgs\profile" . $_REQUEST['image']);die();
+        // $image_file = $_FILES["image"];
+        // var_dump(dirname(__FILE__, 3) . "\imgs\profile" . $_REQUEST['image']);die();
 
-        move_uploaded_file(
-            // Temp image location
-            $image_file["tmp_name"],
+        // move_uploaded_file(
+        //     // Temp image location
+        //     $image_file["tmp_name"],
         
-            // New image location, __DIR__ is the location of the current PHP file
-            __DIR__ . "/imgs/profile" . $image_file["name"]
-        );
+        //     // New image location, __DIR__ is the location of the current PHP file
+        //     __DIR__ . "/imgs/profile" . $image_file["name"]
+        // );
         
         
         $data = $user->getData();
 
    
-        $user->update($_REQUEST['idUsuario'],$data);
+        $user->update($_REQUEST['idUser'],$data);
     }
     
     
@@ -85,7 +88,7 @@ class UserController
     public function myProfile()
     {
         $model = new User;
-        $user = $model->find($_SESSION['idUsuario']);
+        $user = $model->find($_SESSION['idUser']);
         include dirname(__FILE__, 2).'\view\users\profile.phtml';
     }
 

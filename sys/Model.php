@@ -140,8 +140,7 @@ class Model
     }
     
     /** 
-     * This metod add Relations to the model
-     * Add Relations To the Model;
+     * This method add Relations to the model
      * 
      * @table: tabela da relação
      * @foreign: chave da tabela relação
@@ -156,7 +155,15 @@ class Model
             'relatedColumn' => $relatedColumn
         ];
     }
-
+    
+    /** 
+     * This method add Relations to the model
+     * 
+     * @table: tabela da relação
+     * @foreign: chave da tabela relação
+     * @relatedColumn: chave do model
+     * 
+    **/
     protected function LeftJoin(string $table,string $foreign,string $relatedColumn)
     {
         $this->left[] = [

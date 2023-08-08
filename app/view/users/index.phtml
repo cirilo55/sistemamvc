@@ -1,84 +1,33 @@
 
 
 <?php
+use Sys\Component\GridComponent;
 use Sys\Component\ButtonComponent;
-use Sys\Component\InputComponent;
-use Sys\Component\ComboboxComponent;
-
 ?>
 
-<ul>
+<div>
     <h1>Lista Usuarios</h1>
-    <?php if($users): foreach($users as $user): ?>
-        <?php if($user->idUsuario):?>
-        <div class='card'>
-            <div>         
-                <li>Name: <?=$user->nomeUsuario; ?></li>  
-                <li>Last Name: <?=$user->lastName; ?></li>
-                <li>Type: <?=$user->userType; ?></li>
-            </div>
+    <div class='flex'>
+        <input type="text" placeholder="buscar" >
 
-            <div class='btn-menu'>
-                <?=ButtonComponent::render("Edit", "btn-primary", ['id' => 'btn-edit'.$user->idUsuario, 'onClick' =>'jsEdit('.$user->idUsuario.')'])?>
-                <?=ButtonComponent::render("X", "btn-warning" ,['id' => 'btn-delete'.$user->idUsuario, 'onClick' =>'jsDelete('.$user->idUsuario.')'])?>
-            </div>
+        <?=ButtonComponent::render("Lupa", "btn-primary full-btn")?>
+        <div style="margin-left: auto;"> 
 
-
+        <a href="users/add">
+        <?=ButtonComponent::render("Add", "btn-success full-btn")?>
+        </a>
         </div>
-        <br />
-        <?php endif?>
-
-            <div class="center popupContainer" style='display:none'>
-                <form action="/user/remove/<?=$user->idUsuario?>" id="delete-form-<?=$user->idUsuario?>" method="post" >
-                    <p>Tem certeza de que deseja excluir o usuário <?=$user->nomeUsuario; ?></p>
-                    <input type="submit" value="Sim, excluir">
-                    <button id="closePopup">X</button>
-                </form>
-            </div>
-
-
-        <?php endforeach; ?>
-
-
-
-
-    <?php endif?>
-
-</ul>
-<style>
-.card{
-    width: 30%;
-    display: flex;
-}
-.btn-menu{
-    position: absolute;
-    width: 150px;
-    left: calc(100% - 75px);
-}
-
-</style>
+    </div>
+    <?=GridComponent::render($users, ['idUser'=>'id', 'userName'=>'Nome do Usuario', 'lastName'=>'Sobrenome do usuario', 'userType' => 'Tipo Usuario']) ?>
+</div>    
 <script>
-function jsEdit(id)
-{
-   window.location.href = 'user/'+id; 
+    function jsEdit(id){
+        const controller = 'user'
+        OpenEdit(controller, id)
+    }
+    function jsAdd()
+    {
 
-}
-function jsDelete(id)
-{
-    const form =  document.getElementById('delete-form-'+id);
-    form.style.display ='flex';
-}
+    }
 
-// document.getElementsByClassName('btn-primary').onclick = function() {
-//     // Redirecionar o usuário para a rota desejada
-//     const userId = parseInt(this.getAttribute("userId"));
-//     window.location.href = 'user/'+userId; // Substitua 'rota-desejada.php' pela rota que você quer chamar
-// };
-
-// document.getElementById('btn-delete').onclick = function() {
-//     // Redirecionar o usuário para a rota desejada
-//     alert('hehehe');
-//     const userId = parseInt(this.getAttribute("userId"));
-//     window.location.href = 'user/remove/'+userId; // Substitua 'rota-desejada.php' pela rota que você quer chamar
-// };
 </script>

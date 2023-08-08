@@ -4,18 +4,25 @@
 :root{
     --bg-color: ##a5acb3;
     --main-font: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    --font-bicha: 'Imperial Script', cursive;
+    --font-secondary: 'Imperial Script', cursive;
 }
 body{
     background-color: #c5cdd5 !important;
     height: 100vh; /* For 100% screen height */
-    width:  100vw;
+    width:  98vw;
+}
+/* classe que vai fazer os efeitos e de apagar */
+.inactive
+{
+    display: none;
 }
 .navbar
 {
     background-color: antiquewhite;
 }
-
+.flex{
+    display: flex;
+}
 .container .mainarea
 {
     background-color: var(--bg-color);
@@ -42,7 +49,7 @@ body{
 }
 .maintext
 {
-    font-family: var(--font-bicha);
+    font-family: var(--font-secondary);
     font-size: 20px;
     color: whitesmoke
 }
@@ -91,11 +98,11 @@ body{
     margin-top: 1px;
 }
 .hamburguer:hover{
-    background-color: rgb(136, 133, 133);
+    background-color: rgb(255, 255, 255, 0.25);
 }
 .main-menu {
     width: 15%;
-    height: 100%;
+    height: 90%;
     background-color: rgba(66, 63, 63, 0.651);
 }
 .menu-item{
@@ -104,3 +111,12 @@ body{
 .menu-item:hover{
     background-color: rgb(136, 133, 133);
 }
+.profile-circle{
+    border: 1px solid white;
+    border-radius: 50%;
+}
+.profile-circle:hover{
+    border: 1px solid rgb(80, 80, 213);
+    border-radius: 50%;
+}
+/* footer */

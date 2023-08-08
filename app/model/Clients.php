@@ -4,13 +4,13 @@ namespace App\Model;
 
 use Sys\Model;
 
-class User  extends Model{
+class Clients extends Model{
 
-    protected $table = 'users';
+    protected $table = 'clients';
 
-    protected $fillable = ['idUser', 'userName', 'lastName', 'userType', 'password', 'createdAt', 'updatedAt'];
+    protected $fillable = ['id', 'clientName', 'createdAt', 'updatedAt'];
 
-    protected $id = 'idUser';
+    protected $id = 'id';
 
     private $data = [];
 

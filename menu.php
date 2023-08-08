@@ -6,7 +6,7 @@
     $all = $menu->allWithRelations();
 ?>
 
-<div class="main-menu">
+<div id='main-menu' class="main-menu inactive">
     
     <div id='menu-search' class="menu-search center">
         <input class='seachInput' type="text">
@@ -44,14 +44,19 @@
 
 </div>
 <style>
+    .main-menu{
+        position: absolute;
+    }
     .panel-group{
         margin-bottom: 0 !important; 
         width: 100% !important;
     }
     .menu-search{
         height: 5%;
+        border-radius: 5px;
     }
     .list-group-item{
-                margin: 0 ;
+        margin: 0 ;
     }
+    
 </style>

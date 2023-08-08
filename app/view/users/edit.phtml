@@ -12,15 +12,15 @@ use Sys\Component\ComboboxComponent;
             <div class="login-box">
         
             <div class="form-border">
-            <h1>User Add</h1>   
+            <h1>User Edit</h1>   
                     <div class="center form-inputs">
                     <div class="input-box" style="display: none;">
-                        <?=InputComponent::render("idUsuario", "number", $user->idUsuario, "")?>
+                        <?=InputComponent::render("idUser", "number", $user->idUser, "")?>
                     </div>
 
                     <div class="input-box">
                         <label for="role">Nome:</label>
-                        <?=InputComponent::render("nomeUsuario", "text", $user->nomeUsuario, ["placeholder" => "digite aqui o nome"])?>
+                        <?=InputComponent::render("userName", "text", $user->userName, ["placeholder" => "digite aqui o nome"])?>
                     </div>
                         
                     <div class="input-box">
@@ -51,10 +51,10 @@ use Sys\Component\ComboboxComponent;
                         <?=ComboboxComponent::render('role', $roles, $user->userType, ['id' => 'role'])?>
                     </div>
 
-                    <div class="input-box">
+                    <!-- <div class="input-box">
                         <input type="file" id="image" name="image" accept="image/*">
                     </div>
-                    
+                     -->
                     </div>
                     <div class="center">
                     <?=ButtonComponent::render("Enter", "btn-primary full-btn")?>

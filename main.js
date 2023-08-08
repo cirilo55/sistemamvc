@@ -1,15 +1,19 @@
-//sistema de Pop-up ;
-function openPopup() {
-    const popupContainer = document.getElementById('popupContainer');
-    popupContainer.style.display = 'block';
+//por enquanto esta fazendo o edit e delete do js;
+
+function OpenEdit(controller,id)
+{
+   window.location.href = controller+'/'+id; 
+}
+function jsDelete(controller, id)
+{
+    const form =  document.getElementById('delete-form-'+id);
+    form.style.display ='flex';
 }
 
-// Função para fechar o popup
-function closePopup() {
-    const popupContainer = document.getElementById('popupContainer');
-    popupContainer.style.display = 'none';
-}
-function ScreenTransaction()
-{
-    
+function toggleMenu()
+{   
+    menu = $('#main-menu');
+    menu.animate({
+        width: "toggle"
+    });
 }
