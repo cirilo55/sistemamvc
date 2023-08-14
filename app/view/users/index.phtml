@@ -7,20 +7,27 @@ use Sys\Component\ButtonComponent;
 
 <div>
     <h1>Lista Usuarios</h1>
-    <div class='flex'>
-        <input type="text" placeholder="buscar" >
 
-        <?=ButtonComponent::render("Lupa", "btn-primary full-btn")?>
-        <div style="margin-left: auto;"> 
-
-        <a href="users/add">
-        <?=ButtonComponent::render("Add", "btn-success full-btn")?>
-        </a>
-        </div>
-    </div>
     <?=GridComponent::render($users, ['idUser'=>'id', 'userName'=>'Nome do Usuario', 'lastName'=>'Sobrenome do usuario', 'userType' => 'Tipo Usuario']) ?>
 </div>    
 <script>
+    $(document).ready(function() {
+    $('#form-gridComponent').submit(function(event) {
+        event.preventDefault(); // Impede o envio tradicional do formulário
+       
+        $.ajax({
+            type: 'GET', // Método HTTP (GET, POST, etc.)
+            url: 'users', // URL para o script PHP que processará a requisição
+            data: 'grid-search-input=Cirilo&grid-combo=userName', // Dados do formulário
+
+            success: function(response) {
+                
+                $('#result').html(response); // Exibe a resposta do servidor em uma div
+            }
+        });
+    });
+    });
+    
     function jsEdit(id){
         const controller = 'user'
         OpenEdit(controller, id)

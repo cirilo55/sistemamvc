@@ -12,6 +12,8 @@ class User  extends Model{
 
     protected $id = 'idUser';
 
+    protected $url = 'users';
+
     private $data = [];
 
     public function __construct(array $data = [])

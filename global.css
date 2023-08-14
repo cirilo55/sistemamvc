@@ -23,6 +23,12 @@ body{
 .flex{
     display: flex;
 }
+.flex-center
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .container .mainarea
 {
     background-color: var(--bg-color);
@@ -52,11 +58,6 @@ body{
     font-family: var(--font-secondary);
     font-size: 20px;
     color: whitesmoke
-}
-.stage-center{
-    display: grid;
-    place-items: center;
-    height: 90vh;
 }
 .center{
     display: grid;

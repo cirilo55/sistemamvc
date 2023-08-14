@@ -1,5 +1,7 @@
-//por enquanto esta fazendo o edit e delete do js;
+//cabeçario que indentifica as requisições ajax;
+xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 
+//por enquanto esta fazendo o edit e delete do js;
 function OpenEdit(controller,id)
 {
    window.location.href = controller+'/'+id; 

@@ -13,6 +13,8 @@ $router->addRoute('GET', '/', function () {
 $router->addRoute('GET', '/users', function () {
     $controller = new UserController();
     $users = $controller->index();
+    // echo json_encode($users);
+
 });
 
 $router->addRoute('GET', '/user/{:id}', function ($params) {

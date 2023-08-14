@@ -1,22 +1,20 @@
 <?php
 namespace App\Controller;
 use App\Model\User;
-
+use Sys\Component\GridComponent;
 class UserController 
 {
 
     public function index()
     {                       
-
         $model = new User;
-        $users = $model->all();
+        $users = $model->all(10);
         $nameType = array('Administrador', 'Usuario', 'Visitante');
         foreach($users as $user)
         {
             $user->userType = $nameType[$user->userType];
         }
-        $title = "list User";
-        include dirname(__FILE__, 2).'\view\users\index.phtml';
+       GridComponent::render($model, $users, ['idUser'=>'id', 'userName'=>'Nome do Usuario', 'lastName'=>'Sobrenome do usuario', 'userType' => 'Tipo Usuario']);
     }
 
     public function show($id)
@@ -28,6 +26,7 @@ class UserController
     public function add()
     {
         include dirname(__FILE__, 2).'\view\users\add.phtml';
+        // var_dump('queijo');
         
     }
     public function edit($id)

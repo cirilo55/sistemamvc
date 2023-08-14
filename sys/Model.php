@@ -15,6 +15,7 @@ class Model
     protected $tableColumns;
     protected $inner = [];
     protected $left = [];
+    protected $url;
 
 
     public function __construct()
@@ -22,15 +23,58 @@ class Model
         $this->db = new Database();
     }
 
-    public function all()
+
+    /** 
+     * Retorna todos os campos do Model
+     * order by e seach by com os nomes do GridComponent;
+     * SELECT * FROM {$this->table}{$orderBy}
+     * 
+     * @orderby: default 'default_column', 
+     * 
+    **/
+    public function all($pagination=0)
     {
+        $orderBy = isset($_GET['orderby']) ? $orderBy = $_GET['orderby'] : NULL;
+        $orderType = isset($_GET['order-type']) ? $searchField = $_GET['order-type'] : NULL;
+
+        $searchBy = isset($_GET['grid-search-input']) ? $searchBy = $_GET['grid-search-input'] : NULL;
+        $searchField = isset($_GET['grid-combo']) ? $searchField = $_GET['grid-combo'] : NULL;
+
+        $order = '';
+        $search = '';
+        $limit = '';
+        if($pagination)
+        {
+            $limit = "LIMIT {$pagination}";
+        }
+
+        if($searchField)
+        {
+            $search .=  "WHERE {$searchField} LIKE '{$searchBy}'";
+        }
+
+        if($orderBy)
+        {
+           $order .= "ORDER BY {$orderBy}";
+           if($orderType == 'desc')
+           {
+             $order .= ' DESC';
+           }
+           if($orderType == 'asc')
+           {
+            $order .= ' ASC';
+           }
+        }
+
+
         $db = new Database();
-        
-        $query = "SELECT * FROM {$this->table}";
+        $query = "SELECT * FROM {$this->table} {$search} {$order} {$limit}";
+        // var_dump($query);die();
 
         $stmt = $db->query($query, false);
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+    
 
 
     public function find($id)
@@ -107,7 +151,6 @@ class Model
         // Associa os dados das relações aos objetos resultantes
         foreach($results as $result)
         {
-   
             if($this->inner){
                 foreach($this->inner as $in){
                 $relatedData = $this->getRelatedData($db,$in['table'],$in['foreign'], $result->{$in['relatedColumn']});
@@ -183,6 +226,20 @@ class Model
         $stmt = $db->query($query);
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+
+    public function getTotalRecords(): int
+    {
+        $db = new Database();
+        $stmt = $db->query("SELECT COUNT(*) as total FROM {$this->table}");
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        return $result['total'];
+    }
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
 
     
 

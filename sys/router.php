@@ -28,7 +28,5 @@ class Router
                 return;
             }
         }
-
-        echo "404 Not Found";
     }
 }
