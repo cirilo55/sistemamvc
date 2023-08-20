@@ -14,7 +14,7 @@ class UserController
         {
             $user->userType = $nameType[$user->userType];
         }
-       GridComponent::render($model, $users, ['idUser'=>'id', 'userName'=>'Nome do Usuario', 'lastName'=>'Sobrenome do usuario', 'userType' => 'Tipo Usuario']);
+       GridComponent::render($model, $users, ['idUser'=>'id', 'userName'=>'Nome do Usuario', 'lastName'=>'Sobrenome do usuario', 'userType' => 'Tipo Usuario', 'createdAt' => 'Ultima Atualização']);
     }
 
     public function show($id)

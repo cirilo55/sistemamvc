@@ -17,7 +17,7 @@ $router->addRoute('GET', '/users', function () {
 
 });
 
-$router->addRoute('GET', '/user/{:id}', function ($params) {
+$router->addRoute('GET', '/users/find/{:id}', function ($params) {
     $controller = new UserController();
     $controller->edit($params);
 
@@ -27,7 +27,8 @@ $router->addRoute('GET', '/users/add', function () {
     $controller = new UserController();
     $controller->add();
 });
-$router->addRoute('POST', '/user/remove/{:id}', function ($params) {
+
+$router->addRoute('POST', '/users/remove/{:id}', function ($params) {
     $controller = new UserController();
     $controller->delete($params);
     header("Location: /users");
@@ -72,7 +73,6 @@ $router->addRoute('GET', '/clientes', function () {
     $controller->index();
 
 });
-// Adicione outras rotas conforme necessário
 
 $router->handleRequest();
 ?>  

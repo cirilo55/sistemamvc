@@ -16,7 +16,7 @@ class Model
     protected $inner = [];
     protected $left = [];
     protected $url;
-
+    protected $timestamps;
 
     public function __construct()
     {
@@ -66,6 +66,7 @@ class Model
            }
         }
 
+        // var_dump($this->timestamps);die();
 
         $db = new Database();
         $query = "SELECT * FROM {$this->table} {$search} {$order} {$limit}";
@@ -87,11 +88,13 @@ class Model
     public function create($data)
     {
         $db = new Database();
+        $this->gererateTimestamp();
+
+        $data['createdAt'] = "'" . date('Y-m-d H:i:s') . "'";
 
         $keys = array_keys($data);
         $values = array_values($data);
         $values = implode(',',$values);
-
         $sql = "INSERT INTO {$this->table} (" . implode(',', $keys) . ") VALUES ($values)";
 
         $stmt = $db->query($sql);
@@ -103,9 +106,12 @@ class Model
     public function update($id, $data)
     {
         $db = new Database();
+        $this->gererateTimestamp();
+        // Adicionar o campo createdAt e seu valor
+        $data['updatedAt'] = "'" . date('Y-m-d H:i:s') . "'";
 
         $sets = [];
-
+        
         foreach ($data as $key => $value) {
             $sets[] = "$key = $value";
         }
@@ -238,6 +244,27 @@ class Model
     public function getUrl()
     {
         return $this->url;
+    }
+
+    public function gererateTimestamp()
+    {
+        $db = new Database();
+
+        $sql = "SHOW COLUMNS FROM {$this->table} LIKE 'createdAt'";
+        $result = $db->query($sql);
+
+        if ($result->rowCount() === 0) {
+            $alterSql = "ALTER TABLE {$this->table} ADD createdAt DATETIME";
+            $db->query($alterSql);
+        }
+
+        $sql = "SHOW COLUMNS FROM {$this->table} LIKE 'updatedAt'";
+        $result = $db->query($sql);
+
+        if ($result->rowCount() === 0) {
+            $alterSql = "ALTER TABLE {$this->table} ADD createdAt DATETIME";
+            $db->query($alterSql);
+        }
     }
 
 

@@ -2,6 +2,7 @@
 namespace App\Controller;
 use App\Model\User;
 use App\Model\Clients;
+use Sys\Component\GridComponent;
 
 class ClientsController 
 {
@@ -13,7 +14,9 @@ class ClientsController
         $clients = $model->all();
 
         $title = "list User";
-        include dirname(__FILE__, 2).'\view\Client\index.phtml';
+        GridComponent::render($model, $clients, ['id' => 'id', 'clientName' => 'Nome do Cliente' ]);
+
+        // include dirname(__FILE__, 2).'\view\Client\index.phtml';
     }
 
 
