@@ -7,7 +7,7 @@
     --font-secondary: 'Imperial Script', cursive;
 }
 body{
-    background-color: #c5cdd5 !important;
+    background-color: #dfdddd !important;
     height: 100vh; /* For 100% screen height */
     width:  98vw;
 }

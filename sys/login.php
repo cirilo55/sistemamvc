@@ -23,21 +23,27 @@ require_once 'component/InputLabelComponent.php';
 
         <form action="/sys/process_login.php" method="post">
 
-            <?=InputLabelComponent::render('Usuario', 'text', '')?>
+            <?=InputLabelComponent::render('Usuario', 'text', 'username')?>
 
             <div>
 
             </div>
-            <?=InputLabelComponent::render('Senha', 'password', '')?>
+            <?=InputLabelComponent::render('Senha', 'password', 'password')?>
 
 
             <div class='submit'>
-            <?=ButtonComponent::render('Entrar')?>
-            </div>
-      
-
+            <?=ButtonComponent::render('Entrar', 'btn-primary')?>
             </div>
 
+            <div class="center">Esqueceu a Senha?</div>
+
+            <div class='sign-with'>
+                <img src="./../imgs/generic/png-transparent-google-logo-google-text-trademark-logo.png" height="50px" width="50px">
+                <img src="./../imgs/generic/images.png" height="50px" width="50px">
+                <img src="./../imgs/generic/apple.png" height="50px" width="50px">
+            </div>
+            </div>
+            
         </form>
 
     <div class="extra-box">
@@ -51,11 +57,26 @@ require_once 'component/InputLabelComponent.php';
     
 </script>
 <style>
+
+.sign-with {
+    border: 1px solid black;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 40px;
+}
+.sign-with img{
+    margin: 5px;
+    cursor: pointer;
+}
 .login-screen{
     position: absolute;
     top: 20%;
     left: 50%;
     transform: translate(-50%, 0);
+
 }
 .container-login{
     width: 40vh;
@@ -63,6 +84,8 @@ require_once 'component/InputLabelComponent.php';
     border: 1px solid #ccc;
     border-radius: 4px;
     box-shadow: 2px 2px 2px black;
+    background-color: whitesmoke !important;
+
 }
 .login-label{
     display: flex;

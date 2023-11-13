@@ -3,7 +3,7 @@
 namespace Sys\Component;
 
 class InputLabelComponent{
-    public static function render($label, $type, $value, $attributes  = [])
+    public static function render($label, $type, $name, $value='', $attributes  = [])
     {
         $attributeString = '';
 
@@ -16,7 +16,7 @@ class InputLabelComponent{
                 <div>
                 <label for=\"$label\" >$label</label>
                 </div>
-                <input type=\"$type\" name=\"$label\" value=\"$value\" $attributeString />
+                <input type=\"$type\" name=\"$name\" value=\"$value\" $attributeString />
                 </div>
                 ";
     }
@@ -28,12 +28,16 @@ class InputLabelComponent{
     border-radius: 1px;
     font-size:18px;
     text-shadow:1px 0px 0px rgba(42,42,42,.49); 
+    height: 42px;
+    margin: 5px;
 }
 .input-label-component input{
     border: 0 !important;
     text-shadow:1px 0px 0px rgba(42,42,42,.49); 
     font-family:sans-serif; border-color:#fafafa;
-    font-size: 14px
+    font-size: 16px;
+    background-color: #f5f4f1;
+
 }
 .input-label-component label
 {

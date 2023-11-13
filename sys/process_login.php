@@ -9,9 +9,9 @@ use Sys\Database;
 // Verificar se o formulário foi submetido
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Recuperar os dados do formulário
+
     $username = $_POST['username'];
     $password = $_POST['password'];
-
     // Verificar as credenciais (supondo que você tenha uma tabela "users" no banco de dados)
     $db = new Database();   
     $pdo = $db->connect();

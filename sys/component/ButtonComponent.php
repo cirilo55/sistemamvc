@@ -13,3 +13,21 @@ class ButtonComponent
     }
 
 }
+?>
+
+<style>
+    .btn-primary{
+    background-color: purple;
+    width: calc(100% - 40px);
+    color: white;
+    border: 2px solid purple;
+    border-radius: 5px;
+    margin-right: 20px ;
+    height: 5vh;
+    cursor: pointer;
+    }
+    button:hover{
+    opacity: 0.6;
+
+    }
+</style>

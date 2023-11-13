@@ -11,6 +11,8 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'
 include 'header.php';
 
 ?>
+
+
 <body>
 <section>
 
@@ -51,6 +53,8 @@ include 'header.php';
         include 'footer.php';
 ?>
 </body>
+<link rel="stylesheet" href="/global.css">
+
 <style>
     .palco{
         position: absolute;
