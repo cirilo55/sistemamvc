@@ -2,12 +2,13 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
-            "App\\Controller": "app/controller",
-            "App\\Model": "app/model",
+            "App\\Controller\\": "app/controller/",
+            "App\\Model\\": "app/model/",
 
             "Sys\\": "sys/",
-            "Sys\\Core": "sys/Core",
-            "Sys\\Component": "sys/component"
+            "Sys\\Core\\": "sys/Core/",
+            "Sys\\Component\\": "sys/component/"
+            
 
 
 

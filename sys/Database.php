@@ -16,7 +16,7 @@ class Database
     public function __construct()
     {
         // Carrega as variáveis de ambiente do arquivo .env
-        $envPath = realpath(dirname(__FILE__, 2) . '/env.ini');
+        $envPath = realpath(dirname(__FILE__, 2) . '/.env');
         // var_dump(dirname(__FILE__, 2));die();
         $env = parse_ini_file($envPath);
         // var_dump($env);
@@ -24,7 +24,7 @@ class Database
         $this->dbname = $env['DB_DATABASE'];
         $this->user = $env['DB_USERNAME'];
         $this->password = $env['DB_PASSWORD'];
-
+        // var_dump("host=$this->host;dbname=$this->dbname", $this->user, $this->password);die();
     }
 
     public function connect()

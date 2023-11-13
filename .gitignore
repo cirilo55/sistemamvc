@@ -1,5 +1,5 @@
 vendor
 .dockerfile
-env.ini
+.env
 .htaccess
 libs

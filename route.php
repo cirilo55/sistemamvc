@@ -5,7 +5,6 @@ use App\Controller\MainConfigController;
 use App\Controller\ClientsController;
 
 $router = new Router();
-
 $router->addRoute('GET', '/', function () {
 
 });

@@ -1,9 +1,8 @@
 
 <?php
-require_once 'vendor/autoload.php';
+require_once 'vendor/composer/autoload_psr4.php';
 define('CSS_PATH', 'global.css');
 session_start();
-
 if($_SESSION){
 if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
     include 'route.php';
@@ -40,19 +39,17 @@ include 'header.php';
                 </div>
             </div>
          <div>
-</section>
 
 <?php } }else{?>
         <?php
-            include 'login.php';
+            include 'sys/login.php';
         ?>
     
 <?php }?>
-
-    <?php
+</section>
+<?php
         include 'footer.php';
-    ?>
-
+?>
 </body>
 <style>
     .palco{

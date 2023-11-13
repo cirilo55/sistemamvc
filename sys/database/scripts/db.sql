@@ -53,6 +53,7 @@ create table clients(
 /*usertype = 1 (Admin) usetype = 2 (Padrão)*/
 
 INSERT INTO users (idUser,userName,lastName,userType,password) VALUES (1,'CIRILO','1234',0, '$10$ih5KJrY2j2lJruZYwE451.s2vaRYxT5O3YnSoRi5zqrAMoSWseBzy')
+INSERT INTO users (idUser,userName,lastName,userType,password) VALUES (1,'CIRILO','1234',0, '$2y$10$W8tNwM/7FTpZj2O9AFQch.EahQY6fRuH5fEYd.Im.lIWxzP.CH8hi')
 Insert into systemModule (id, moduleName, `order`) VALUES (1, 'Operacional', 1);
 Insert into systemModule (id, moduleName, `order`) VALUES (2, 'Configurações', 9);
 Insert into systemModule (id, moduleName, `order`) VALUES (3, 'Dashboards', 2);

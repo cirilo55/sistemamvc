@@ -62,19 +62,6 @@ class UserController
         $user->lastName = $_REQUEST['lastName'];
         $user->userType = $_REQUEST['role'];
         $user->password = "'".password_hash($_REQUEST['password'], PASSWORD_DEFAULT)."'";
-        // $user->imagePath = $_REQUEST['image'];
-
-        // $image_file = $_FILES["image"];
-        // var_dump(dirname(__FILE__, 3) . "\imgs\profile" . $_REQUEST['image']);die();
-
-        // move_uploaded_file(
-        //     // Temp image location
-        //     $image_file["tmp_name"],
-        
-        //     // New image location, __DIR__ is the location of the current PHP file
-        //     __DIR__ . "/imgs/profile" . $image_file["name"]
-        // );
-        
         
         $data = $user->getData();
 

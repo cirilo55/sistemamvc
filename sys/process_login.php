@@ -13,11 +13,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
 
     // Verificar as credenciais (supondo que você tenha uma tabela "users" no banco de dados)
-    $db = new Database();
+    $db = new Database();   
     $pdo = $db->connect();
-
     $stmt = $pdo->query("SELECT * FROM users WHERE userName = '{$username}'");
     $user = $stmt->fetch();
+
     // $stmt->execute(['username' => $username]);
     // $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     } else {
         // Credenciais inválidas, redirecionar para a página de login novamente
-        header('Location: ../login.php');
+        header('Location: ../');
         exit();
     }
 }
