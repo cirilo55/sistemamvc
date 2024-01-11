@@ -8,13 +8,14 @@ class UserController
     public function index()
     {                       
         $model = new User;
-        $users = $model->all(10);
+        $users = $model->all();
         $nameType = array('Administrador', 'Usuario', 'Visitante');
         foreach($users as $user)
         {
             $user->userType = $nameType[$user->userType];
+            $user->updatedAt = formatDataPtBr($user->updatedAt);
         }
-       GridComponent::render($model, $users, ['idUser'=>'id', 'userName'=>'Nome do Usuario', 'lastName'=>'Sobrenome do usuario', 'userType' => 'Tipo Usuario', 'createdAt' => 'Ultima Atualização']);
+       GridComponent::render($model, $users, ['idUser'=>'id', 'userName'=>'Nome do Usuario', 'lastName'=>'Sobrenome do usuario', 'userType' => 'Tipo Usuario', 'updatedAt' => 'Ultima Atualização']);
     }
 
     public function show($id)

@@ -1,6 +1,8 @@
 
 <?php
-require_once 'vendor/composer/autoload_psr4.php';
+require_once 'vendor/autoload.php';
+include './sys/helpers.php';
+
 define('CSS_PATH', 'global.css');
 session_start();
 if($_SESSION){
@@ -9,22 +11,22 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'
     exit();
 }else{
 include 'header.php';
-
 ?>
-
-
 <body>
 <section>
-
-        <div id='main-stage' class='palco'>
+        <div id='main-stage' class='main-stage'>
             <?php
             include 'route.php';
             ?>
         </div>
 
+    <?php
+        include './app/view/Generic/menu.php';
+    ?>
 
     <?php
-        include 'menu.php';
+        include './app/view/Generic/tasks.php';
+
     ?>
 
                 <!-- Recebe os Modais -->
@@ -56,15 +58,16 @@ include 'header.php';
 <link rel="stylesheet" href="/global.css">
 
 <style>
-    .palco{
+    .main-stage{
         position: absolute;
         left: 15%;
-        margin:5px;
         background-color: whitesmoke;
-        border: 1px dotted ;
-        height: 88%;
+        border: 1px dotted;
+        height: inherit;
         width: 70%;
+
     }
+ 
     .main-stage-2{
         z-index: 0;
     }
@@ -105,6 +108,7 @@ include 'header.php';
     }
 </style>
 <script>
+    require('bootstrap');
     function openLevel2(response)
     {
         $('.overlay').show();

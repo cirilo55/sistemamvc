@@ -15,6 +15,7 @@
     Top: 90%;
     left: 0px;
     right: 0px;
+    height: 3rem;
     bottom: 0px;
     color: white;
 }

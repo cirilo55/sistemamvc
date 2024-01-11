@@ -3,3 +3,4 @@ vendor
 .env
 .htaccess
 libs
+node_modules

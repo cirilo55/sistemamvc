@@ -8,8 +8,8 @@
 }
 body{
     background-color: #dfdddd !important;
-    height: 100vh; /* For 100% screen height */
-    width:  98vw;
+    height: 100%;
+    width: 100%; 
 }
 /* classe que vai fazer os efeitos e de apagar */
 .inactive
@@ -65,7 +65,8 @@ body{
 }
 /** Classes do Header **/
 .nav {
-    height: 10vh;
+    display: flex;
+    align-items: center;
     background-color: black;
     color: white;
 

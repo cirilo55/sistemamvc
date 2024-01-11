@@ -4,14 +4,12 @@ namespace Sys;
 use Sys\Component\ButtonComponent;
 use Sys\Component\InputLabelComponent;
 
-require_once 'component/ButtonComponent.php';
-require_once 'component/InputLabelComponent.php';
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sistema de Login</title>
+    <title>Login</title>
 </head>
 <div class="login-screen">
     <div class="container-login">    

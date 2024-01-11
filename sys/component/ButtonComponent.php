@@ -23,7 +23,6 @@ class ButtonComponent
     border: 2px solid purple;
     border-radius: 5px;
     margin-right: 20px ;
-    height: 5vh;
     cursor: pointer;
     }
     button:hover{

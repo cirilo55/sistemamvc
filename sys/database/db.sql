@@ -63,5 +63,8 @@ INSERT INTO moduleItem (id, itemName, idModulo, archorValue) VALUES (2, 'Tarefas
 INSERT INTO moduleItem (id, itemName, idModulo, archorValue) VALUES (3, 'Clientes', 1, 'clientes');
 Insert into moduleItem (id, itemName, idModulo, archorValue) VALUES (4, 'Configurações Gerais', 2, 'config');
 
+insert into  clients (id, clientName) VALUES (1, 'empresa n1')
+insert into  clients (id, clientName) VALUES (2, 'empresa n2')
+
 INSERT INTO mainConfig (id) VALUES (1)
 

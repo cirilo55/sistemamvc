@@ -1,10 +1,10 @@
 <?php
 // process_login.php
 namespace Sys;
-require_once 'Database.php';
 use PDO;
 use PDOException;
 use Sys\Database;
+require_once 'Database.php';
 
 // Verificar se o formulário foi submetido
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -35,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     } else {
         // Credenciais inválidas, redirecionar para a página de login novamente
+        die('errou');
         header('Location: ../');
         exit();
     }

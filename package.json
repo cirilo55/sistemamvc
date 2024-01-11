@@ -1,0 +1,16 @@
+{
+  "name": "sistemamvc",
+  "version": "1.0.0",
+  "description": "<!-- ENV.INI -->\r DB_HOST=\r DB_PORT=\r DB_DATABASE=\r DB_USERNAME=root\r DB_PASSWORD=",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^3.4.1",
+    "jquery": "^3.7.1"
+  }
+}

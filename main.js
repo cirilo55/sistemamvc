@@ -19,3 +19,26 @@ function toggleMenu()
         width: "toggle"
     });
 }
+function toggleTasks() {
+    menu = $('#task-menu');
+
+    if (menu.is(':visible')) {
+        // If menu is visible, animate it to move out to the left
+        menu.animate({
+            width: "toggle",
+            marginLeft: "200px", // Adjust the value based on your layout
+            opacity: 0
+        }, function () {
+            menu.hide();
+        });
+    } else {
+        // If menu is hidden, animate it to move in from the left
+        menu.show().css({
+            marginLeft: "200px", // Set initial position outside the view
+            opacity: 0
+        }).animate({
+            marginLeft: 0,
+            opacity: 1
+        }, 400); // Adjust the duration as needed
+    }
+}

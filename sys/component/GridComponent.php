@@ -15,13 +15,20 @@ class GridComponent
      * @columns: [nomedaColuna =>nomeDisplay ]
      * 
     **/
-    public static function render($model, array $data, array $columns,bool $btnAdicionar=true, bool $btnEditar=true,bool $btnDeletar=true)
+    public static function render($model,array $data ,array $columns,bool $btnAdicionar=true, bool $btnEditar=true, bool $btnDeletar=true, int $itemsPerPage = 15)
     {
         $idKey = array_search("id", $columns);
         $urlController = ($model->getUrl());
 
+        $currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
+        $totalItems = count($data);
+        $totalPages = ceil($totalItems / $itemsPerPage);
+        $startIndex = ($currentPage - 1) * $itemsPerPage;
+        $pagedData = array_slice($data, $startIndex, $itemsPerPage);
+        // var_dump($pagedData);
         echo "<div id='hidden-controller' class='inactive' data-url=".$urlController."></div>";
         echo "<div id='grid-component'>";
+        echo "<div id='grid-component-body'>";
         self::renderGridHead($columns);
         self::filtersPersist($columns);
         if($btnEditar)
@@ -34,9 +41,11 @@ class GridComponent
         }
         echo "<table class='grid-table'>";
         self::renderHeader($columns);
-        self::renderRows($data, $columns, $idKey);
+        self::renderRows($pagedData, $columns, $idKey);
         echo '</table>';
-        self::paginateRow();
+        echo "</div>";
+
+        self::paginateRow($currentPage,$totalPages);
         echo "</div>";
 
     }
@@ -115,9 +124,22 @@ class GridComponent
         }
     }
 
-    private static function paginateRow()
+    private static function paginateRow($currentPage, $totalPages)
     {
-        echo "<div class='flex-center'><a href='#'><div> < </div></a><div class=''> 1 </div> <a  href='#'> <div> > </div></a></div>";
+        echo "<div class='grid-footer'>";
+
+        // Link para a página anterior
+        echo "<a href='?page=" . max($currentPage - 1, 1) . "'><div> < </div></a>";
+
+        // Links para as páginas individuais
+        for ($i = 1; $i <= $totalPages; $i++) {
+            echo "<a href='?page=$i'><div>" . $i . "</div></a>";
+        }
+
+        // Link para a próxima página
+        echo "<a href='?page=" . min($currentPage + 1, $totalPages) . "'><div> > </div></a>";
+
+        echo "</div>";
     }
 
     private static function filtersPersist($columns)
@@ -291,6 +313,12 @@ $(document).ready(function() {
 
 </script>
 <style>
+    /* #grid-component{
+        height: 100%;
+    }
+    #grid-component-body{
+        height: 90%;
+    } */
     .grid-component-th-asc{
         cursor: pointer;
     }
@@ -394,6 +422,7 @@ $(document).ready(function() {
 
     }
     .grid-row{
+        height: 10%;
     }
     .grid-row:hover{
         background-color: #e1ffef;
@@ -415,6 +444,17 @@ $(document).ready(function() {
         background-repeat: no-repeat;
         background-position: center;
         border:none;
+
+    }
+    .grid-footer{
+        margin-left: auto;
+        display: flex;
+        width: 20%;
+    }
+    @media (max-width: 1300px) {
+    .grid-row{
+        height: 20%;
+    }
 
     }
 
