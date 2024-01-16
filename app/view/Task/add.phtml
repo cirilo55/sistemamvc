@@ -1,0 +1,67 @@
+
+
+<?php
+use Sys\Component\ButtonComponent;
+use Sys\Component\InputComponent;
+use Sys\Component\ComboboxComponent;
+use Sys\Component\TextAreaComponent;
+
+?>
+<body>
+    <div class="stage-center">
+
+        <form action="/tarefas/submit" method="POST">
+            <div class="login-box">
+        
+            <div class="form-border">
+            <h1>Criar tarefa</h1>
+
+                    <div class="form-inputs">
+
+                    <div class="input-box">
+                        <label for="role">Nome Tarefa:</label>
+                        <?=InputComponent::render("taskName", "text", "")?>
+                    </div>
+                        
+
+                    <div class="input-box">
+                        <label for="role">Data Entrega:</label>
+                        <?=InputComponent::render("dateTask", "date", "")?>
+                    </div>
+
+                    <div class="input-box">
+                        <label for="role">Descrição:</label>
+                        <?=TextAreaComponent::render("description", "text", "")?>
+                    </div>
+
+                    <div class="input-box">
+                        <label for="role">Usuario responsavel:</label>
+                        <?php
+                        $roles = [
+                            '0' => 'Administrador',
+                            '1' => 'Usuário',
+                            '2' => 'Visitante'
+                        ];
+                        ?>
+
+                    <?=ComboboxComponent::render('user_task_responsible', $roles, '', ['id' => 'role'])?>
+
+                    </div>
+                    </div>
+
+                    <div class="center">
+
+                        <?=ButtonComponent::render("Enter", "btn-primary full-btn")?>
+                    </div>
+            </div>
+            
+
+        </form>
+
+    </div>
+
+</body>
+<style>
+
+</style>
+<html>

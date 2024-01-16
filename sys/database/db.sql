@@ -49,7 +49,19 @@ create table clients(
   `clientName` varchar(30),
   createdAt datetime,
   updatedAt datetime
-)
+);
+
+create table task (
+  id int PRIMARY KEY AUTO_INCREMENT,
+  `taskName` varchar(30),
+  `limitDate` datetime,
+  `status` INT,
+  `user_task_responsible` int REFERENCES users(id),
+  `user_task_owner` int REFERENCES users(id),
+  createdAt datetime,
+  updatedAt datetime
+);
+alter table task add column description varchar(255);
 /*usertype = 1 (Admin) usetype = 2 (Padrão)*/
 
 INSERT INTO users (idUser,userName,lastName,userType,password) VALUES (1,'CIRILO','1234',0, '$10$ih5KJrY2j2lJruZYwE451.s2vaRYxT5O3YnSoRi5zqrAMoSWseBzy')

@@ -12,51 +12,59 @@
         <input class='seachInput' type="text">
     </div>
 
+    <?php if ($all) : foreach ($all as $itemMenu): ?>
+        <div class="accordion">
+            <div class="accordion">
 
-    <?php if($all) : foreach($all as $itemMenu): ?>
-        <div class="panel-group">
-        <div class="panel panel-default">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?=$itemMenu->id?>">
+                        <?=$itemMenu->moduleName?>
+                    </button>
+                </h2>
 
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" href="#collapse<?=$itemMenu->id?>"><?=$itemMenu->moduleName?></a>
-                </h4>
+                <div id="collapse<?=$itemMenu->id?>" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <ul class="list-group">
+                            <?php foreach($itemMenu->moduleItem as $module) { ?>
+                                <a href="/<?=$module->archorValue?>">
+                                    <li class="list-group-item"><?=$module->itemName?></li>
+                                </a>
+                            <?php }?>
+                        </ul>
+                    </div>
+                </div>
+
             </div>
-
-
-            <div id="collapse<?=$itemMenu->id?>" class="panel-collapse collapse">
-                <ul class="list-group">
-                    <?php foreach($itemMenu->moduleItem as $module) { ?>
-                        <a href="/<?=$module->archorValue?>">
-                            <li class="list-group-item"><?=$module->itemName?></li>
-                        </a>
-                    <?php }?>
-                    
-                </ul>
-            </div>
-
-        </div>
         </div>
     <?php endforeach; endif;?>
 
-
-
-
 </div>
 <style>
-    .main-menu{
-        position: absolute;
+    .accordion-body{
+        padding: 0;
     }
-    .panel-group{
-        margin-bottom: 0 !important; 
-        width: 100% !important;
-    }
-    .menu-search{
-        height: 5%;
-        border-radius: 5px;
-    }
-    .list-group-item{
-        margin: 0 ;
-    }
-    
 </style>
+
+
+<script>
+    // Adicione este script jQuery para controlar o comportamento de colapso
+    $(document).ready(function() {
+        $('.accordion-collapse').on('show.bs.collapse', function () {
+            $(this).siblings('.accordion-header').addClass('active');
+        });
+
+        $('.accordion-collapse').on('hide.bs.collapse', function () {
+            $(this).siblings('.accordion-header').removeClass('active');
+        });
+    });
+
+    // Adicione este script jQuery para alternar a classe 'inactive' e 'active' no clique do botão de menu
+    $(document).ready(function() {
+        $('#main-menu-toggle').click(function() {
+            $('#main-menu').toggleClass('active');
+        });
+    });
+</script>
+
+
+

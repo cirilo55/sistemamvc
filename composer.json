@@ -14,5 +14,9 @@
 
             
         }
+    },
+    "require": {
+        "components/jquery": "^3.7",
+        "twbs/bootstrap": "^5.3"
     }
 }

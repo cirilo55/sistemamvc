@@ -30,7 +30,9 @@ class GridComponent
         echo "<div id='grid-component'>";
         echo "<div id='grid-component-body'>";
         self::renderGridHead($columns);
+        echo "<div class='persist-row'>";
         self::filtersPersist($columns);
+        echo "</div>";
         if($btnEditar)
         {
             $columns['edit'] = 'Editar';
@@ -157,12 +159,12 @@ class GridComponent
         {
         echo "<div id='orderType-hidden' data-order={$orderType}> </div>";
         }
-        echo "<div class='persist-row'>";
+        // echo "<div class='persist-row'>";
         if($searchBy){
         $columnName = $columns[$searchField];
         echo "<div id='persist-search' data-field={$searchField} data-search={$searchBy} class='persist-card'> <div id='closePersist' class='closeButton'>X</div> <div>{$columnName} é igual á {$searchBy} </div></div>";
         }  
-        echo "</div>";
+        // echo "</div>";
     }
 }
 ?>
@@ -313,12 +315,17 @@ $(document).ready(function() {
 
 </script>
 <style>
-    /* #grid-component{
+    #grid-component{
         height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
     }
     #grid-component-body{
         height: 90%;
-    } */
+        overflow: auto; 
+        flex: 1;
+    }
     .grid-component-th-asc{
         cursor: pointer;
     }
@@ -370,6 +377,7 @@ $(document).ready(function() {
     }
     .grid-form{
         display: flex;
+        height: 5%;
         margin: 5px;
     }
     #form-gridComponent{
@@ -405,9 +413,8 @@ $(document).ready(function() {
     .grid-table{
         width: calc(100% - 40px);
         margin-left: 20px;
-        box-shadow: 3px 3px grey;
         border-radius: 2px;
-
+        border-collapse: collapse;
     }
 
     .persist-row{
@@ -417,12 +424,17 @@ $(document).ready(function() {
     }
     .table-head
     {
+     
        Color: #7492ec;
        font-family: "Roboto",sans-serif;
-
+       height: 4%;
+       max-height: 150px;
+       min-height: 50px;
     }
     .grid-row{
-        height: 10%;
+        height: 2%; 
+        max-height: 150px;
+        min-height: 50px;
     }
     .grid-row:hover{
         background-color: #e1ffef;
@@ -449,11 +461,11 @@ $(document).ready(function() {
     .grid-footer{
         margin-left: auto;
         display: flex;
-        width: 20%;
+        width: 10%;
     }
     @media (max-width: 1300px) {
     .grid-row{
-        height: 20%;
+        height: 40px;
     }
 
     }

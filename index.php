@@ -1,5 +1,6 @@
 
 <?php
+ob_start();
 require_once 'vendor/autoload.php';
 include './sys/helpers.php';
 
@@ -14,21 +15,29 @@ include 'header.php';
 ?>
 <body>
 <section>
+        <!-- <div style='height:100%; width:100%;place-items:center'> -->
+    <div class="section-stage">
+        <div class='left-stage'>
+
+        <?php
+            include './app/view/Generic/menu.php';
+        ?>
+        </div>
+
         <div id='main-stage' class='main-stage'>
+       
+        <div class='grid-stage'>
             <?php
             include 'route.php';
             ?>
         </div>
+        </div>
 
-    <?php
-        include './app/view/Generic/menu.php';
-    ?>
+       <?php
+            include './app/view/Generic/tasks.php';
+        ?>
 
-    <?php
-        include './app/view/Generic/tasks.php';
-
-    ?>
-
+    </div>
                 <!-- Recebe os Modais -->
         <div id="overlay" class="overlay">
             <div class='stage-popup'>
@@ -53,27 +62,44 @@ include 'header.php';
 </section>
 <?php
         include 'footer.php';
+        ob_end_flush();
 ?>
 </body>
 <link rel="stylesheet" href="/global.css">
 
 <style>
+    section{
+        height: 100%;
+    }
+
+    .section-stage{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-wrap: wrap;
+
+    }
+    .left-stage{
+        width: 15%;
+    }
     .main-stage{
-        position: absolute;
-        left: 15%;
-        background-color: whitesmoke;
-        border: 1px dotted;
         height: inherit;
         width: 70%;
 
     }
- 
+    .grid-stage{
+        background-color: whitesmoke;
+        height: 96%;
+        width: 98%;
+        margin: 1%;
+        border: 1px dotted;
+
+    }
+
     .main-stage-2{
         z-index: 0;
     }
-    section {
-        height: 90%;
-    }
+
     .footer-container{
         z-index: -2;
         position: absolute;
@@ -108,7 +134,6 @@ include 'header.php';
     }
 </style>
 <script>
-    require('bootstrap');
     function openLevel2(response)
     {
         $('.overlay').show();

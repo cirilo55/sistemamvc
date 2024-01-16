@@ -27,7 +27,6 @@ class UserController
     public function add()
     {
         include dirname(__FILE__, 2).'\view\users\add.phtml';
-        // var_dump('queijo');
         
     }
     public function edit($id)

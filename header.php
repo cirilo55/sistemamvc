@@ -1,7 +1,5 @@
-<?php
-    
+<?php 
     $title = false;
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -12,15 +10,10 @@
     <title><?=($title? $title :'Titulo')?></title>
     <!-- Incluindo o arquivo "global.css" -->   
     <script src="main.js"></script>
-    <link rel="stylesheet" href="/libs/bootstrap-4.5.3-dist/css/bootstrap.min.css">
 
-    <script src="main.js"></script>        
-    <!-- Include Jquery CSS from node_modules -->
-    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
-    <!-- Include Bootstrap CSS from node_modules -->
-    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="vendor/components/jquery/jquery.min.js"></script>
+    <link rel="stylesheet" href="vendor/twbs/bootstrap/dist/css/bootstrap.min.css">
+    <script src="vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
 </head>
 <header class="nav">

@@ -1,4 +1,6 @@
 //cabeçario que indentifica as requisições ajax;
+var xhr = new XMLHttpRequest();
+xhr.open('GET' , 'localhost:9999', true);
 xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 
 //por enquanto esta fazendo o edit e delete do js;
@@ -34,7 +36,7 @@ function toggleTasks() {
     } else {
         // If menu is hidden, animate it to move in from the left
         menu.show().css({
-            marginLeft: "200px", // Set initial position outside the view
+            marginLeft: "0", // Set initial position outside the view
             opacity: 0
         }).animate({
             marginLeft: 0,

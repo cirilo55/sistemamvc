@@ -11,7 +11,7 @@
         width: 15%;
         height: 90%;
         background-color: rgba(66, 63, 63, 0.651);
-
+        z-index: -1;
     }
     @keyframes slideToggle {
     from {

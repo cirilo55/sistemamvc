@@ -3,6 +3,7 @@ use Sys\Router;
 use App\Controller\UserController;
 use App\Controller\MainConfigController;
 use App\Controller\ClientsController;
+use App\Controller\TaskController;
 
 $router = new Router();
 $router->addRoute('GET', '/', function () {
@@ -72,6 +73,22 @@ $router->addRoute('GET', '/clientes', function () {
     $controller->index();
 
 });
+$router->addRoute('GET', '/tarefas' , function() {
+    $controller = new TaskController();
+    $controller->index();
+});
+$router->addRoute('GET', '/tarefas/add' , function() {
+    $controller = new TaskController();
+    $controller->add();
+});
+$router->addRoute('POST', '/tarefas/submit', function () {
+    ob_clean();
+    $controller = new TaskController();
+    $controller->submitForm();
+    header("Location: /tarefas");
+
+    exit;
+});
+
 
 $router->handleRequest();
-?>  
