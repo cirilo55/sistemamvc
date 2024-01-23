@@ -15,11 +15,13 @@ class GridComponent
      * @columns: [nomedaColuna =>nomeDisplay ]
      * 
     **/
-    public static function render($model,array $data ,array $columns,bool $btnAdicionar=true, bool $btnEditar=true, bool $btnDeletar=true, int $itemsPerPage = 15)
+    public static function render($model,array $data ,array $columns,bool $btnAdicionar=true, bool $btnEditar=true, bool $btnDeletar=true, int $itemsPerPage=15)
     {
         $idKey = array_search("id", $columns);
         $urlController = ($model->getUrl());
 
+        $itemsPerPage = isset($_GET['limit']) ? $_GET['limit']: 15;
+        $itemsPerPage = intval($itemsPerPage);
         $currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
         $totalItems = count($data);
         $totalPages = ceil($totalItems / $itemsPerPage);
@@ -41,13 +43,15 @@ class GridComponent
         {
             $columns['delete'] = 'Deletar';
         }
+        echo "<div class='grid-table-component'>";
         echo "<table class='grid-table'>";
         self::renderHeader($columns);
         self::renderRows($pagedData, $columns, $idKey);
         echo '</table>';
+        echo '</div>';
         echo "</div>";
 
-        self::paginateRow($currentPage,$totalPages);
+        self::paginateRow($currentPage,$totalPages, $itemsPerPage);
         echo "</div>";
 
     }
@@ -126,10 +130,9 @@ class GridComponent
         }
     }
 
-    private static function paginateRow($currentPage, $totalPages)
+    private static function paginateRow($currentPage, $totalPages, $itemsPerPage)
     {
         echo "<div class='grid-footer'>";
-
         // Link para a página anterior
         echo "<a href='?page=" . max($currentPage - 1, 1) . "'><div> < </div></a>";
 
@@ -137,9 +140,18 @@ class GridComponent
         for ($i = 1; $i <= $totalPages; $i++) {
             echo "<a href='?page=$i'><div>" . $i . "</div></a>";
         }
-
         // Link para a próxima página
         echo "<a href='?page=" . min($currentPage + 1, $totalPages) . "'><div> > </div></a>";
+        echo "<div class='grid-paginate'>";
+        echo "<select name='grid-pagination' id='grid-pagination'>";
+        
+        echo "<option ".(($itemsPerPage === 15) ? 'selected': ''). " value='15'>15</option>";
+        echo "<option ".(($itemsPerPage === 30) ? 'selected': ''). " value='30'>30</option>";
+        echo "<option ".(($itemsPerPage === 60) ? 'selected': ''). " value='60'>60</option>";
+
+        echo "</select>";
+        echo "</div>";
+
 
         echo "</div>";
     }
@@ -278,6 +290,23 @@ $(document).ready(function() {
         sendRequestGridComponet(orderBy, orderType, undefined, undefined);
     })
 
+    $('#grid-pagination').on('change', () => {
+        var selectedValue = $('#grid-pagination option:selected').val();
+        var currentUrl = window.location.href;
+
+        // Check if the current URL already has parameters
+        if(currentUrl.indexOf('limit=') !== -1){
+        var regex = new RegExp('limit=([^&]*)');
+        var newUrl = currentUrl.replace(regex, 'limit=' + encodeURIComponent(selectedValue));
+        }else{
+        var separator = currentUrl.indexOf('?') !== -1 ? '&' : '?';
+        var newUrl = currentUrl + separator + 'limit=' + encodeURIComponent(selectedValue);
+        }
+
+        window.location.href = newUrl;
+
+    })
+
 });
     function jsEdit(id)
     {
@@ -313,6 +342,8 @@ $(document).ready(function() {
         });
     }
 
+
+
 </script>
 <style>
     #grid-component{
@@ -322,8 +353,9 @@ $(document).ready(function() {
         flex-direction: column;
     }
     #grid-component-body{
-        height: 90%;
-        overflow: auto; 
+        height: 85%;
+        overflow: auto;
+
         flex: 1;
     }
     .grid-component-th-asc{
@@ -377,7 +409,7 @@ $(document).ready(function() {
     }
     .grid-form{
         display: flex;
-        height: 5%;
+        
         margin: 5px;
     }
     #form-gridComponent{
@@ -410,11 +442,15 @@ $(document).ready(function() {
         justify-content: center;
 
     }
+    .grid-table-component{
+        overflow: auto;
+    }
     .grid-table{
         width: calc(100% - 40px);
         margin-left: 20px;
         border-radius: 2px;
         border-collapse: collapse;
+
     }
 
     .persist-row{
@@ -435,6 +471,7 @@ $(document).ready(function() {
         height: 2%; 
         max-height: 150px;
         min-height: 50px;
+        font-size: medium;
     }
     .grid-row:hover{
         background-color: #e1ffef;
@@ -463,9 +500,21 @@ $(document).ready(function() {
         display: flex;
         width: 10%;
     }
-    @media (max-width: 1300px) {
+    @media (min-width: 1400px) {
     .grid-row{
-        height: 40px;
+        font-size: medium;
+    }
+
+    @media (min-width: 1400px) {
+    .grid-row{
+        font-size: medium;
+    }
+
+    }
+
+    @media (min-width: 1600px) {
+    .grid-row{
+        font-size: large;
     }
 
     }

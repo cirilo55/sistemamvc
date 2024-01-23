@@ -15,7 +15,7 @@ class UserController
             $user->userType = $nameType[$user->userType];
             $user->updatedAt = formatDataPtBr($user->updatedAt);
         }
-       GridComponent::render($model, $users, ['idUser'=>'id', 'userName'=>'Nome do Usuario', 'lastName'=>'Sobrenome do usuario', 'userType' => 'Tipo Usuario', 'updatedAt' => 'Ultima Atualização']);
+       GridComponent::render($model, $users, ['id'=>'id', 'userName'=>'Nome do Usuario', 'lastName'=>'Sobrenome do usuario', 'userType' => 'Tipo Usuario', 'updatedAt' => 'Ultima Atualização']);
     }
 
     public function show($id)
@@ -32,7 +32,7 @@ class UserController
     public function edit($id)
     {
         $mod = new User();
-        $user = $mod ->find($id);
+        $user = $mod ->findOld($id);
         include dirname(__FILE__, 2).'\view\users\edit.phtml';
         
     }
@@ -66,7 +66,7 @@ class UserController
         $data = $user->getData();
 
    
-        $user->update($_REQUEST['idUser'],$data);
+        $user->update($_REQUEST['id'],$data);
     }
     
     
@@ -74,7 +74,7 @@ class UserController
     public function myProfile()
     {
         $model = new User;
-        $user = $model->find($_SESSION['idUser']);
+        $user = $model->findOld($_SESSION['id']);
         include dirname(__FILE__, 2).'\view\users\profile.phtml';
     }
 

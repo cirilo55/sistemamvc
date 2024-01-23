@@ -33,9 +33,11 @@ include 'header.php';
         </div>
         </div>
 
-       <?php
-            include './app/view/Generic/tasks.php';
+       <div class='right-stage'>
+        <?php
+                include './app/view/Generic/tasks.php';
         ?>
+        </div>
 
     </div>
                 <!-- Recebe os Modais -->
@@ -85,6 +87,8 @@ include 'header.php';
     .main-stage{
         height: inherit;
         width: 70%;
+        z-index: 0;
+
 
     }
     .grid-stage{

@@ -3,17 +3,16 @@
 namespace App\Model;
 
 use Sys\Model;
-use App\Model\User;
 
-class Task extends Model{
+class Notifications  extends Model{
 
-    protected $table = 'task';
+    protected $table = 'notifications';
 
-    protected $fillable = ['id', 'taskName', 'limitDate','description', 'status', 'user_task_responsible', 'user_task_owner'];
+    protected $fillable = ['id', 'title', 'title', 'userType', 'user_notification'];
 
     protected $id = 'id';
 
-    protected $url = 'tarefas';
+    // protected $url = '';
 
     private $data = [];
 
@@ -31,6 +30,7 @@ class Task extends Model{
         if (isset($this->data[$name])) {
             return $this->data[$name];
         }
+
         return null;
     }
 
@@ -38,13 +38,10 @@ class Task extends Model{
     {
         $this->data[$name] = $value;
     }
-    
-    public function joinTaskResposible()
+
+    public function joinUserNotification()
     {
-        return $this->innerJoin('users', 'id', 'user_task_responsible');
+        return $this->innerJoin('users', 'id', 'user_notification');
     }
-    public function joinTaskOwner()
-    {
-        return $this->innerJoin('users', 'id', 'user_task_owner');
-    }
+  
 }

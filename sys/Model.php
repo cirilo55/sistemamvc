@@ -76,14 +76,34 @@ class Model
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
     
-
-
-    public function find($id)
+    public function findOld($id)
     {
         $db = new Database();
         $stmt = $db->query("SELECT * FROM {$this->table} WHERE {$this->id} = {$id}", false);
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
+
+    public function find($id)
+    {
+        $db = new Database();
+        $params = [':id' => $id];
+        $stmt = $db->prepareAndExecute("SELECT * FROM {$this->table} WHERE {$this->id} = :id", $params);
+        // var_dump($stmt);die();
+        $r =  $stmt->fetchAll(PDO::FETCH_OBJ);
+        return $r;
+        
+    }
+
+    public function findByField(string $field,$id)
+    {
+        $db = new Database();
+        $params = [':id' => $id];
+        $stmt = $db->prepareAndExecute("SELECT * FROM {$this->table} WHERE $field = :id", $params);
+        if ($stmt) {
+            return $stmt->fetchAll(PDO::FETCH_OBJ);
+        }
+    }
+
 
     public function create($data)
     {
@@ -145,7 +165,7 @@ class Model
         $joins = $this->getJoins();
     
         $query = "SELECT * FROM {$this->table}";
-    
+        // var_dump($query);die();
         $stmt = $db->query($query);
         $results = $stmt->fetchAll(PDO::FETCH_OBJ);
     

@@ -36,15 +36,7 @@ use Sys\Component\TextAreaComponent;
 
                     <div class="input-box">
                         <label for="role">Usuario responsavel:</label>
-                        <?php
-                        $roles = [
-                            '0' => 'Administrador',
-                            '1' => 'Usuário',
-                            '2' => 'Visitante'
-                        ];
-                        ?>
-
-                    <?=ComboboxComponent::render('user_task_responsible', $roles, '', ['id' => 'role'])?>
+                    <?=ComboboxComponent::render('user_task_responsible', $users, '', ['id' => 'role'])?>
 
                     </div>
                     </div>

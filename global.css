@@ -89,16 +89,13 @@ body{
 
 .hamburguer {
     width: 45px;
-    height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     cursor: pointer;
-    border-radius: 50%;
-    margin: 10px;
 
-  }
+}
   
 .hamburguer .bar {
     height: 5px;
@@ -110,7 +107,15 @@ body{
     margin-top: 1px;
 }
 .hamburguer:hover{
+
+
+}
+.circle-hover-menu{
+    border-radius: 50%;
+}
+.circle-hover-menu:hover{
     background-color: rgb(255, 255, 255, 0.25);
+
 }
 .main-menu {
     width: 100%;

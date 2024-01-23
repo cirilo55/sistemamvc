@@ -8,9 +8,9 @@ class User  extends Model{
 
     protected $table = 'users';
 
-    protected $fillable = ['idUser', 'userName', 'lastName', 'userType', 'password'];
+    protected $fillable = ['id', 'userName', 'lastName', 'userType', 'password'];
 
-    protected $id = 'idUser';
+    protected $id = 'id';
 
     protected $url = 'users';
 

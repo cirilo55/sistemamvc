@@ -43,6 +43,24 @@ class Database
         return $this->pdo;
     }
 
+    public function prepareAndExecute($query, $params = [])
+    {
+        try {
+            $stmt = $this->connect()->prepare($query);
+
+            foreach ($params as $paramName => $paramValue) {
+                $stmt->bindParam($paramName, $paramValue);
+            }
+
+            $stmt->execute();
+            
+            return $stmt;
+        } catch (PDOException $e) {
+            echo $query . 'Erro na consulta: ' . $e->getMessage();
+            return null;
+        }
+    }
+
     public function query($query)
     {
         try {
@@ -59,7 +77,6 @@ class Database
     public function execute($query, $params = [])
     {
         $stmt = $this->connect()->prepare($query);
-        // $this->saveQuery($query);
         return $stmt->execute($params);
     }
 

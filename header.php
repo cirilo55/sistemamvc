@@ -17,14 +17,13 @@
 
 </head>
 <header class="nav">
-
-<div class=''>
+    <div class="circle-hover-menu">
     <div class="hamburguer center" onclick="toggleMenu()">
         <div id="bar1" class="bar"></div>
         <div id="bar2" class="bar"></div>
         <div id="bar3" class="bar"></div>
     </div>
-</div>
+    </div>
 
 <div class="session">
 
@@ -42,23 +41,23 @@
 
     <?php }else{?>
 
-    <div class="center" onclick="toggleTasks()">
+   
+    <div class="center" onclick="toggleTasks()" style="margin: 0 0.5rem;">
         <img src="./imgs/generic/bell.png" alt="" height="35" width="35">
     </div>
 
     <div class="profile">
-        <div class="center">
+        <div class="center" style="margin: 0 0.5rem;">
             <div class="profile-circle">
              <img src="./imgs/profile/noProfile.png" alt="" height="35" width="35">
             </div>
         </div>
-        <div style="display: flex; justify-content:center">
+        <div class='profile-options'>
         <a href="/myprofile">
             <div>
                 <?=$_SESSION['userName'] .' '.$_SESSION['lastName']?>
             </div> 
         </a>
-        <div> | </div>
         <a href="/SignOut">
             <div>
                 Sign/Out
@@ -66,9 +65,14 @@
         </a>
         </div>
     </div>
-
+    </div>
     <?php }?>
     </div>
 
 </header>
 </div>
+<style>
+    .profile{
+        display: flex;
+    }
+</style>

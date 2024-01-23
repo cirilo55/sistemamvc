@@ -21,8 +21,9 @@ function toggleMenu()
         width: "toggle"
     });
 }
+
 function toggleTasks() {
-    menu = $('#task-menu');
+    menu = $('#notification-tab');
 
     if (menu.is(':visible')) {
         // If menu is visible, animate it to move out to the left

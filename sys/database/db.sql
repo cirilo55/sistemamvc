@@ -1,7 +1,7 @@
 create database sistemamvc
 -- CREATED AT E UPDATE AT criar rotinas;
 create table users (
-	idUser int PRIMARY KEY AUTO_INCREMENT,
+	id INT PRIMARY KEY AUTO_INCREMENT,
   userName varchar(30),
   lastName varchar(30),
   userEmail varchar(30),
@@ -10,6 +10,16 @@ create table users (
   imagePath VARCHAR(255),
   createdAt datetime,
   updatedAt datetime
+)
+
+create table notifications(
+   `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `title` varchar(16),
+  `description` varchar(255),
+  `user_notification` INT NOT NULL,
+   CONSTRAINT user_notification
+   FOREIGN KEY (user_notification) REFERENCES users(id)
+   ON DELETE CASCADE
 )
 
 create table mainConfig(
@@ -54,18 +64,25 @@ create table clients(
 create table task (
   id int PRIMARY KEY AUTO_INCREMENT,
   `taskName` varchar(30),
+  `description` description varchar(255);
   `limitDate` datetime,
   `status` INT,
+  `description` description varchar(255);
   `user_task_responsible` int REFERENCES users(id),
   `user_task_owner` int REFERENCES users(id),
   createdAt datetime,
   updatedAt datetime
 );
-alter table task add column description varchar(255);
+-- alter table task add column description varchar(255);
 /*usertype = 1 (Admin) usetype = 2 (Padrão)*/
+ALTER TABLE users
+ALTER COLUMN id datatype;
 
-INSERT INTO users (idUser,userName,lastName,userType,password) VALUES (1,'CIRILO','1234',0, '$10$ih5KJrY2j2lJruZYwE451.s2vaRYxT5O3YnSoRi5zqrAMoSWseBzy')
-INSERT INTO users (idUser,userName,lastName,userType,password) VALUES (1,'CIRILO','1234',0, '$2y$10$W8tNwM/7FTpZj2O9AFQch.EahQY6fRuH5fEYd.Im.lIWxzP.CH8hi')
+
+INSERT INTO users (id,userName,lastName,userType,`password`) VALUES (1,'Admin','1234',0, '$2y$10$BWisgENvxN0w7ruaHLS.ruRH84f7slYOADvWWVEHRq1kuc4cQ13NK')
+INSERT INTO users (id,userName,lastName,userType,`password`) VALUES (2,'CIRILO','1234',0, '$2y$10$BWisgENvxN0w7ruaHLS.ruRH84f7slYOADvWWVEHRq1kuc4cQ13NK')
+INSERT INTO users (id,userName,lastName,userType,`password`) VALUES (3,'Cid','1234',0, '81dc9bdb52d04dc20036dbd8313ed055')
+
 Insert into systemModule (id, moduleName, `order`) VALUES (1, 'Operacional', 1);
 Insert into systemModule (id, moduleName, `order`) VALUES (2, 'Configurações', 9);
 Insert into systemModule (id, moduleName, `order`) VALUES (3, 'Dashboards', 2);
@@ -79,4 +96,6 @@ insert into  clients (id, clientName) VALUES (1, 'empresa n1')
 insert into  clients (id, clientName) VALUES (2, 'empresa n2')
 
 INSERT INTO mainConfig (id) VALUES (1)
+
+
 
