@@ -35,16 +35,14 @@ $router->addRoute('POST', '/users/remove/{:id}', function ($params) {
 });
 
 $router->addRoute('POST', '/users/submitUpdate', function () {
-    
     $controller = new UserController();
-    $controller->submitUpdate();
-    header("Location: /users");
+    $controller->submitForm();
+    header("Location: /myprofile");
 });
 
 $router->addRoute('GET', '/myprofile', function () {
     $controller = new UserController();
     $controller->myProfile();
-    // $controller->add();
 });
 
 $router->addRoute('POST', '/users/submit', function () {

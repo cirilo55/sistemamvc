@@ -121,10 +121,10 @@ class GridComponent
             }
             
             if (isset($columns['edit'])) {
-                echo '<td>'.ButtonComponent::render("Edit", "btn-primary" , ['id' => 'btn-edit'.$row->{$idKey}, 'onClick' =>'jsEdit('.$row->{$idKey}.')']) .'</td>';
+                echo '<td>' . "<button class='btn-icon' id='btn-edit" . $row->{$idKey} . "' onclick='jsEdit(" . $row->{$idKey} . ")'><i class='bi bi-pencil-square'></i></button>" . '</td>';
             }
             if (isset($columns['delete'])) {
-                echo '<td>'.ButtonComponent::render("X", "btn-warning" ,['id' => 'btn-delete'.$row->{$idKey}, 'onClick' =>'jsDelete('.$row->{$idKey}.')']) .'</td>';
+                echo '<td>' . "<button class='btn-icon' id='btn-delete" . $row->{$idKey} . "' onclick='jsDelete(" . $row->{$idKey} . ")'><i class='bi bi-trash'></i></button>" . '</td>';
             }
             echo '</tr>';
         }
@@ -308,7 +308,9 @@ $(document).ready(function() {
     })
 
 });
-    function jsEdit(id)
+
+
+function jsEdit(id)
     {
         let urlAjax = $('#hidden-controller').data('url');
 
@@ -342,10 +344,24 @@ $(document).ready(function() {
         });
     }
 
-
-
 </script>
+
 <style>
+    .btn-icon {
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        min-width: 30px; /* Set a minimum width for the button */
+        min-height: 30px; /* Set a minimum height for the button */
+    }
+
+    /* Style for the icon inside the button */
+    .btn-icon i {
+        font-size: 1.5rem; /* Adjust the font size as needed */
+        color: #007bff; /* Customize the icon color */
+    }
+
     #grid-component{
         height: 100%;
         width: 100%;
@@ -500,23 +516,19 @@ $(document).ready(function() {
         display: flex;
         width: 10%;
     }
-    @media (min-width: 1400px) {
-    .grid-row{
-        font-size: medium;
-    }
 
     @media (min-width: 1400px) {
     .grid-row{
-        font-size: medium;
+        font-size: var(--font-medium);
     }
-
     }
 
     @media (min-width: 1600px) {
     .grid-row{
-        font-size: large;
+        font-size: var(--font-large);
     }
 
     }
+    
 
 </style>

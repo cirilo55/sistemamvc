@@ -5,6 +5,11 @@
     --bg-color: ##a5acb3;
     --main-font: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     --font-secondary: 'Imperial Script', cursive;
+    --font-xsmall: 6px;
+    --font-small: 10px;
+    --font-medium: 16px;
+    --font-large: 24px;
+    --font-xlarge: 28px;
 }
 html{
     height: 100%;
@@ -74,16 +79,17 @@ body{
 }
 /** Classes do Header **/
 .nav {
-    display: flex;
-    align-items: center;
     background-color: black;
     color: white;
-    height: 8%;
+    height: 7%;
+    width: 100%;
+    font-size: x-small;
+
 }
-.session{
-    margin-left: auto;
+.nav-session{
     display: flex;
-    width: 20%;
+    width: 80%;
+    height: 100%;
     
 }
 
@@ -106,12 +112,11 @@ body{
     transition: 0.3s ease;
     margin-top: 1px;
 }
-.hamburguer:hover{
 
-
-}
 .circle-hover-menu{
     border-radius: 50%;
+    height: 50%;
+    display: grid;
 }
 .circle-hover-menu:hover{
     background-color: rgb(255, 255, 255, 0.25);
@@ -130,6 +135,7 @@ body{
 }
 .profile-circle{
     border: 1px solid white;
+    margin: 0 0.25rem;
     border-radius: 50%;
 }
 .profile-circle:hover{

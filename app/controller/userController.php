@@ -15,7 +15,7 @@ class UserController
             $user->userType = $nameType[$user->userType];
             $user->updatedAt = formatDataPtBr($user->updatedAt);
         }
-       GridComponent::render($model, $users, ['id'=>'id', 'userName'=>'Nome do Usuario', 'lastName'=>'Sobrenome do usuario', 'userType' => 'Tipo Usuario', 'updatedAt' => 'Ultima Atualização']);
+       GridComponent::render($model, $users, ['id'=>'id', 'userName'=>'Nome do Usuario', 'lastName'=>'Sobrenome do usuario', 'userType' => 'Tipo Usuario', 'updatedAt' => 'Ultima Atualização'], true, false,false);
     }
 
     public function show($id)
@@ -40,33 +40,48 @@ class UserController
     public function submitForm()
     {
         $user = new User();
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $user->userName = "'".$_REQUEST['userName']."'" ;
-        $user->lastName = "'".$_REQUEST['lastName']."'";
-        $user->userType = $_REQUEST['role'];
-        $user->password = "'".password_hash($_REQUEST['password'], PASSWORD_DEFAULT)."'";
+        $user->userName = inputFormat($_POST['userName']) ;
+        $user->lastName = inputFormat($_POST['lastName']);
+        $user->userType = $_POST['role'];
 
         $data = $user->getData();
-   
-        $user->create($data);
 
+        if($_REQUEST['id']){
+            $user->update($_REQUEST['id'], $data);
+        }else{
+            $user->create($data);
         }
+    
     }
 
     public function submitUpdate()
     {
         $user = new User();
+        $user->userName = inputFormat($_POST['userName']) ;
+        $user->lastName = inputFormat($_POST['lastName']);
+        $user->userType = $_POST['role'];
 
-        $user->userName = "'".$_REQUEST['userName']."'" ;
-        $user->lastName = $_REQUEST['lastName'];
-        $user->userType = $_REQUEST['role'];
-        $user->password = "'".password_hash($_REQUEST['password'], PASSWORD_DEFAULT)."'";
-        
         $data = $user->getData();
-
-   
-        $user->update($_REQUEST['id'],$data);
+        $user->update($_REQUEST['id'], $data);
+    }
+    public function submitProfile()
+    {
+        $user = new User();
+        $fileInputName = 'fileToUpload';  // Adjust based on your form input name
+        $uploadDir = dirname(__DIR__, 2). DIRECTORY_SEPARATOR . "imgs" . DIRECTORY_SEPARATOR . "profile".DIRECTORY_SEPARATOR; 
+        $oldProfilePath = null;
+        if($_SESSION['profile'])
+        {
+            $oldProfilePath= $uploadDir.$_SESSION['profile'];
+        }
+        $upload = handleFileUpload($fileInputName, $uploadDir, $oldProfilePath);
+        if (strpos($upload, "File uploaded successfully") !== false) {
+            $data = $user->getData();
+            $user->update($_SESSION['id'], $data);
+    
+            $_SESSION['profile'] = basename($_FILES[$fileInputName]['name']);
+        }
+        // header();
     }
     
     
@@ -75,6 +90,9 @@ class UserController
     {
         $model = new User;
         $user = $model->findOld($_SESSION['id']);
+        $nameType = array('Administrador', 'Usuario', 'Visitante');
+        $user->userType = $nameType[$user->userType];
+
         include dirname(__FILE__, 2).'\view\users\profile.phtml';
     }
 
@@ -96,34 +114,6 @@ class UserController
             echo "Erro ao excluir usuário.";
         }
     }
-
-    // public function handleUpload()
-    // {
-    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    //         $targetDir = '/caminho/para/pasta/de/imagens/';
-    //         $targetFile = $targetDir . basename($_FILES['image']['name']);
-    //         $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
-
-    //         // Verifica se o arquivo é uma imagem
-    //         if (isset($_POST['submit'])) {
-    //             $check = getimagesize($_FILES['image']['tmp_name']);
-    //             if ($check !== false) {
-    //                 // Move o arquivo temporário para o diretório de destino
-    //                 if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
-    //                     echo "Imagem enviada com sucesso!";
-    //                     // Salve o caminho da imagem no banco de dados usando a função setImagePath() do modelo User
-    //                     $userModel = new User();
-    //                     $userModel->setImagePath($targetFile);
-    //                     // Resto do código para salvar o usuário no banco de dados
-    //                 } else {
-    //                     echo "Erro ao enviar a imagem.";
-    //                 }
-    //             } else {
-    //                 echo "O arquivo não é uma imagem válida.";
-    //             }
-    //         }
-    //     }
-    // }
 
 }
 

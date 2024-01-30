@@ -14,9 +14,10 @@
     <script src="vendor/components/jquery/jquery.min.js"></script>
     <link rel="stylesheet" href="vendor/twbs/bootstrap/dist/css/bootstrap.min.css">
     <script src="vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
+    <link rel="stylesheet" href="vendor/twbs/bootstrap-icons/font/bootstrap-icons.css">
 </head>
 <header class="nav">
+    <div class='center' style="width: 10%; height:100%">
     <div class="circle-hover-menu">
     <div class="hamburguer center" onclick="toggleMenu()">
         <div id="bar1" class="bar"></div>
@@ -24,8 +25,13 @@
         <div id="bar3" class="bar"></div>
     </div>
     </div>
+    </div>
 
-<div class="session">
+    <div style="width: 70%; height:100% ">
+
+    </div>
+
+    <div class="nav-session" style="width: 20%; height:100%">
 
     <?php if(empty($_SESSION)){?>
         <div class="sign-in">
@@ -42,14 +48,15 @@
     <?php }else{?>
 
    
-    <div class="center" onclick="toggleTasks()" style="margin: 0 0.5rem;">
-        <img src="./imgs/generic/bell.png" alt="" height="35" width="35">
+    <div class="center" onclick="toggleTasks()" style="width:20%">
+        <div class="bi bi-bell-fill"></div>
     </div>
 
     <div class="profile">
-        <div class="center" style="margin: 0 0.5rem;">
+        <div class="center">
             <div class="profile-circle">
-             <img src="./imgs/profile/noProfile.png" alt="" height="35" width="35">
+             <?php $profile = $_SESSION['profile'] ? $_SESSION['profile'] :'noProfile.png' ;?> 
+             <img class='header-profile-img'src="./imgs/profile/<?=$profile?>" alt="" height="35" width="35">
             </div>
         </div>
         <div class='profile-options'>
@@ -74,5 +81,26 @@
 <style>
     .profile{
         display: flex;
+        align-items: center;
     }
+    .profile-circle{
+        width: 36px;
+        height: 36px;
+    }
+    .header-profile-img{
+        border-radius: 50%;
+    }
+
+    @media (min-width: 1300px) {
+    .nav{
+        font-size: x-small;;
+    }
+    }
+
+    @media (min-width: 1600px) {
+    .nav{
+        font-size: medium;
+    }
+    }
+    
 </style>

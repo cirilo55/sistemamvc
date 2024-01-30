@@ -24,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   
     // $stmt->execute(['username' => $username]);
     // $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    $password = '1234';
     $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
     
     // var_dump($hashedPassword);die();
@@ -32,11 +31,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($user && password_verify($password, $user['password'])) {
         // Credenciais corretas, fazer a autenticação do usuário
         session_start();
+
         $_SESSION['id'] = $user['id']; // Por exemplo, salve o ID do usuário na sessão
         $_SESSION['password'] = $user['password'];
         $_SESSION['userName'] = $user['userName']; // Por exemplo, salve o ID do usuário na sessão
         $_SESSION['userName'] = $user['userName'];
         $_SESSION['lastName'] = $user['lastName'];
+        $_SESSION['imagePath'] = $user['imagePath'];
+        $_SESSION['profile'] = $user['imagePath'];
+
         // var_dump($_SESSION);die();
         // Redirecionar para a página de boas-vindas ou outra página restrita
         header('Location: ../');

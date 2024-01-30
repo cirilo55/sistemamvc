@@ -1,16 +1,100 @@
 <html>
 <head>
-    <title><?php echo $title; ?></title>
+    <title><?php echo $title; 
+    $profile = $_SESSION['profile'] ? $_SESSION['profile'] : 'noProfile.png'
+    
+    ?></title>
 </head>
 <body>
-
-    <ul>
+    <div class='flex'>
         <h1>My Profile</h1>
-        <?php if($user->id):?>
-        <li>Name: <?=$user->userName; ?></li>
-        <li>Last Name: <?=$user->lastName; ?></li>
-        <li>Type: <?=$user->userType; ?></li>
-        <?php endif?>
-    </ul>
+
+        <div style='margin-left: auto;'>
+        <button id='btn-edit' class='btn-icon' onclick="editProfile(<?=$_SESSION['id']?>)">
+            <i class='bi bi-pencil-square'></i>
+        </button>
+        </div>
+    </div>
+
+    <div class="flex">
+        <form action="/users/submitProfile" method="POST" enctype="multipart/form-data" id="profileForm">
+            <div class='profile-border'>
+                <label for="fileToUpload">
+                    <input type="file" name="fileToUpload" id="fileToUpload" style="display: none;" onchange="uploadProfile()">
+                    <img class='profile-img' id="imagePreview" src="./../../../imgs/profile/<?=$_SESSION['profile']?>" alt="Profile Pic" width="400" height="400" onclick="document.getElementById('fileToUpload').click();">
+                </label>
+            </div>
+        </form>
+
+        <div class='profile-left'>     
+            <div class='user-info'>
+                    <?php if($user->id):?>
+                        <div><label>Name: </label><?=$user->userName; ?></div>
+                        <div><label>Last Name:</label> <?=$user->lastName; ?></div>
+                        <div><label>Type: </label><?=$user->userType; ?></div>
+                        <div><label>Ultimo Acesso: </label></div>
+                    <?php endif?>
+            </div>
+            <div class='last-completed'>
+
+            </div>
+        </div>
+
+
+    </div>
+    <script>
+    function uploadProfile() {
+        document.getElementById('profileForm').submit();
+    }
+
+    function editProfile(id)
+    {
+
+        $.ajax({
+            type: 'GET',
+            url: 'users/find/'+id,
+
+            success: function(response) {
+                openLevel2(response, 'sm');
+             }
+
+        });
+    }
+    </script>
 </body>
+<style>
+    .profile-border{
+        border-radius: 50%;
+        border: 1px solid black;
+        width:402px;
+        height:402px;
+    }
+    .profile-img{
+        border-radius: 50%;
+        cursor: pointer;
+    }
+    .profile-left
+    {
+        width:100%;
+        height:100%
+    }
+    .user-info{
+        width: 90%;
+        margin: 1%;
+
+    }
+    .user-info label{
+        color: gray;
+        font-weight: bold;
+    }
+    .last-completed{
+        border: 1px dotted black;
+        width: 80%;
+        height: 300px;
+        margin: 5%;
+    }
+</style>
+<script>
+
+</script>
 </html>

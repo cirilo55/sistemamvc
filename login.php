@@ -92,7 +92,6 @@
 }
 .submit{
     display: flex;
-    /* margin-left: auto; */
     flex-direction: row-reverse;
     
 }

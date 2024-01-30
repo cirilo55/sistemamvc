@@ -32,9 +32,9 @@ class TaskController
     {
         $task = new Task();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $task->taskName = "'".$_REQUEST['taskName']."'" ;
-        $task->limitDate = "'".$_REQUEST['dateTask']."'";
-        $task->description = "'".$_REQUEST['description']."'";
+        $task->taskName = inputFormat($_REQUEST['taskName']);
+        $task->limitDate = inputFormat($_REQUEST['dateTask']);
+        $task->description = inputFormat($_REQUEST['description']);
         $task->user_task_owner = $_SESSION['id'];
         $task->user_task_responsible = $_REQUEST['user_task_responsible'];
         $data = $task->getData();

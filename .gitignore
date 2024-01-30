@@ -4,3 +4,4 @@ vendor
 .htaccess
 libs
 node_modules
+imgs/profile/*

@@ -116,7 +116,7 @@ class Model
         $values = array_values($data);
         $values = implode(',',$values);
         $sql = "INSERT INTO {$this->table} (" . implode(',', $keys) . ") VALUES ($values)";
-
+        // var_dump($sql);die();
         $stmt = $db->query($sql);
 
         $db->saveQuery($sql);
@@ -127,19 +127,21 @@ class Model
     {
         $db = new Database();
         $this->gererateTimestamp();
-        // Adicionar o campo createdAt e seu valor
-        $data['updatedAt'] = "'" . date('Y-m-d H:i:s') . "'";
+        // Adicionar o campo UpdatedAt e seu valor
+        $data['updatedAt'] =  date('Y-m-d H:i:s') ;
 
         $sets = [];
         
         foreach ($data as $key => $value) {
+            // Check if the value is a string, and if so, enclose it in single quotes
+            $value = is_string($value) ? "'" . $value . "'" : $value;
             $sets[] = "$key = $value";
         }
 
-        $sql = "UPDATE $this->table SET " . implode(',', $sets) . " WHERE {$this->id}  = {$id}";
+        $sql = "UPDATE $this->table SET " . implode(',', $sets) . " WHERE {$this->id} = {$id}";
         $stmt = $db->query($sql);
-
         $db->saveQuery($sql);
+        
         return $stmt;
     }
 
