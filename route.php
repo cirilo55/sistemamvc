@@ -1,56 +1,16 @@
 <?php
 use Sys\Router;
-use App\Controller\UserController;
-use App\Controller\MainConfigController;
-use App\Controller\ClientsController;
-use App\Controller\TaskController;
 
 $router = new Router();
+
 $router->addRoute('GET', '/', function () {
 
 });
 
-$router->addRoute('GET', '/users', function () {
-    $controller = new UserController();
-    $users = $controller->index();
-    // echo json_encode($users);
-
-});
-
-$router->addRoute('GET', '/users/find/{:id}', function ($params) {
-    $controller = new UserController();
-    $controller->edit($params);
-
-});
-
-$router->addRoute('GET', '/users/add', function () {
-    $controller = new UserController();
-    $controller->add();
-});
-
-$router->addRoute('POST', '/users/remove/{:id}', function ($params) {
-    $controller = new UserController();
-    $controller->delete($params);
-    header("Location: /users");
-});
-
-$router->addRoute('POST', '/users/submitUpdate', function () {
-    $controller = new UserController();
-    $controller->submitForm();
-    header("Location: /myprofile");
-});
-
-$router->addRoute('GET', '/myprofile', function () {
-    $controller = new UserController();
-    $controller->myProfile();
-});
-
-$router->addRoute('POST', '/users/submit', function () {
-    $controller = new UserController();
-    $controller->submitForm();
-    header("Location: /users");
-    exit;
-});
+include('./routes/userRoutes.php');
+include('./routes/taskRoutes.php');
+include('./routes/mainConfigRoutes.php');
+include('./routes/clientsController.php');
 
 $router->addRoute('GET', '/login', function () {
     include('login.php');
@@ -61,32 +21,5 @@ $router->addRoute('GET', '/SignOut', function () {
     header("Location: /login");
 
 });
-$router->addRoute('GET', '/config', function () {
-    $controller = new MainConfigController();
-    $controller->index();
-
-});
-$router->addRoute('GET', '/clientes', function () {
-    $controller = new ClientsController();
-    $controller->index();
-
-});
-$router->addRoute('GET', '/tarefas' , function() {
-    $controller = new TaskController();
-    $controller->index();
-});
-$router->addRoute('GET', '/tarefas/add' , function() {
-    $controller = new TaskController();
-    $controller->add();
-});
-$router->addRoute('POST', '/tarefas/submit', function () {
-    ob_clean();
-    $controller = new TaskController();
-    $controller->submitForm();
-    header("Location: /tarefas");
-
-    exit;
-});
-
 
 $router->handleRequest();

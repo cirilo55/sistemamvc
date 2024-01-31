@@ -12,20 +12,17 @@ use Sys\Component\ComboboxComponent;
             <div class="login-box">
         
             <div class="form-border">
-            <h1>User Edit</h1>   
                     <div class="center form-inputs">
                     <div class="input-box" style="display: none;">
                         <?=InputComponent::render("id", "number", $user->id, "")?>
                     </div>
+                    
+                    <div class="input-box">
+                        <?=InputComponent::render("userName",'Nome de Usuario', "text", $user->userName, ["placeholder" => "digite aqui o nome"])?>
+                    </div>
 
                     <div class="input-box">
-                        <label for="role">Nome:</label>
-                        <?=InputComponent::render("userName", "text", $user->userName, ["placeholder" => "digite aqui o nome"])?>
-                    </div>
-                        
-                    <div class="input-box">
-                        <label for="role">Sobrenome:</label>
-                        <?=InputComponent::render("lastName", "text", $user->lastName, ["placeholder" => "digite aqui o sobrenome"])?>
+                        <?=InputComponent::render("lastName",'Sobrenome', "text", $user->lastName, ["placeholder" => "digite aqui o sobrenome"])?>
                     </div>
 
                     <div class="input-box">
@@ -39,11 +36,7 @@ use Sys\Component\ComboboxComponent;
                         ?>
                         <?=ComboboxComponent::render('role', $roles, $user->userType, ['id' => 'role'])?>
                     </div>
-   
-                    <!-- <div class="input-box">
-                        <input type="file" id="image" name="image" accept="image/*">
-                    </div>
-                     -->
+
                     </div>
                     <div class="center">
                     <?=ButtonComponent::render("Enter", "btn-primary full-btn")?>
@@ -60,10 +53,7 @@ use Sys\Component\ComboboxComponent;
     label{
         width: 100%;
     }
-    .login-box{
-        height: 80vh;
-        width: 20vw;
-    }
+
     .input-box{
         width: 100%;
         margin-bottom: 1rem;

@@ -18,17 +18,17 @@ use Sys\Component\ComboboxComponent;
 
                         <div class="input-box">
                         <label for="role">Nome:</label>
-                        <?=InputComponent::render("userName", "text", "", ["placeholder" => "digite aqui o nome"])?>
+                        <?=InputComponent::render("userName",'Nome do Usuário' ,"text", "", ["placeholder" => "digite aqui o nome"])?>
                     </div>
                         
                     <div class="input-box">
                         <label for="role">Sobrenome:</label>
-                        <?=InputComponent::render("lastName", "text", "", ["placeholder" => "digite aqui o sobrenome"])?>
+                        <?=InputComponent::render("lastName","Sobrenome", "text", "", ["placeholder" => "digite aqui o sobrenome"])?>
                     </div>
 
                     <div class="input-box">
                         <label for="role">Senha:</label>
-                        <?=InputComponent::render("password", "password", "", ["placeholder" => "digite aqui a senha"])?>
+                        <?=InputComponent::render("password","Senha", "password", "", ["placeholder" => "digite aqui a senha"])?>
                     </div>
 
                     <div class="input-box">

@@ -43,8 +43,8 @@ include 'header.php';
             <div id="overlay-sm" class="overlay">
             <div class='stage-popup-sm'>
 
-                <div class="popuphead">
-                <div>POPUP</div>
+                <div class="popuphead"><?=$title ? $title : '';?>
+                <div class='title-popup-sm'></div>
                 <button id="close-overlay-sm" onclick="closeLevel2()">X</button>
                 </div>
 
