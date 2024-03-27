@@ -1,8 +1,8 @@
 
 <?php
 use Sys\Component\ButtonComponent;
-use Sys\Component\InputComponent;
 use Sys\Component\ComboboxComponent;
+use Sys\Component\InputLabelComponent;
 
 ?>
 <body>
@@ -15,20 +15,9 @@ use Sys\Component\ComboboxComponent;
             <h1>User Add</h1>
 
                     <div class="form-inputs">
-
-                        <div class="input-box">
-                        <label for="role">Nome:</label>
-                        <?=InputComponent::render("userName",'Nome do Usuário' ,"text", "", ["placeholder" => "digite aqui o nome"])?>
-                    </div>
-                        
-                    <div class="input-box">
-                        <label for="role">Sobrenome:</label>
-                        <?=InputComponent::render("lastName","Sobrenome", "text", "", ["placeholder" => "digite aqui o sobrenome"])?>
-                    </div>
-
-                    <div class="input-box">
-                        <label for="role">Senha:</label>
-                        <?=InputComponent::render("password","Senha", "password", "", ["placeholder" => "digite aqui a senha"])?>
+                        <?=InputLabelComponent::render("Nome do Usuário",'text' ,"userName", "", ["placeholder" => "Digite aqui o nome"])?>
+                        <?=InputLabelComponent::render("Sobrenome","text", "lastName", "", ["placeholder" => "Digite aqui o sobrenome"])?>
+                        <?=InputLabelComponent::render("Senha","password", "password", "", ["placeholder" => "Digite aqui a senha"])?>
                     </div>
 
                     <div class="input-box">

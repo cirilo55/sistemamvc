@@ -7,7 +7,7 @@
 <style>
 
 .footer {
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.8);
     text-align: center;
     width: 100%; 
     color: white;

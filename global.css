@@ -4,6 +4,10 @@
 :root{
     --bg-color: ##a5acb3;
     --main-font: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+
+    --black-gradient:  linear-gradient(to right, rgb(16, 16, 16) 0%, rgba(0, 0, 0, 0.8) 50%, rgba(0, 0, 0, 0.9) 100%)
+
+
     --font-secondary: 'Imperial Script', cursive;
     --font-xsmall: 6px;
     --font-small: 10px;
@@ -79,13 +83,14 @@ body{
 }
 /** Classes do Header **/
 .nav {
-    background-color: black;
+    background: linear-gradient(to right, rgb(16, 16, 16) 0%, rgba(0, 0, 0, 0.8) 50%, rgba(0, 0, 0, 0.9) 100%); 
     color: white;
     height: 7%;
     width: 100%;
     font-size: x-small;
 
 }
+
 .nav-session{
     display: flex;
     width: 80%;

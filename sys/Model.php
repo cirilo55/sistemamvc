@@ -145,6 +145,30 @@ class Model
         return $stmt;
     }
 
+    // public function update2($id, $data)
+    // {
+    //     $db = new Database();
+    //     $this->gererateTimestamp();
+    //     // Adicionar o campo UpdatedAt e seu valor
+    //     $data['updatedAt'] =  date('Y-m-d H:i:s') ;
+
+    //     $sets = [];
+    //     $params = [];
+    //     // var_dump($data);die();
+    //     foreach ($data as $key => $value) {
+    //         // Check if the value is a string, and if so, enclose it in single quotes
+    //         $value = is_string($value) ? "'" . $value . "'" : $value;
+    //         $sets[] = "$key = $value";
+    //     }
+
+    //     $sql = "UPDATE $this->table SET " . implode(',', $sets) . " WHERE {$this->id} = {$id}";
+
+    //     $stmt = $db->prepareAndExecute($sql, $params);
+    //     $db->saveQuery($sql);
+        
+    //     return $stmt;
+    // }
+
     public function delete($id)
     {
         $db = new Database();

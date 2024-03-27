@@ -13,10 +13,10 @@ use Sys\Component\ComboboxComponent;
         
             <div class="form-border">
                     <div class="center form-inputs">
+
                     <div class="input-box" style="display: none;">
-                        <?=InputComponent::render("id", "number", $user->id, "")?>
+                        <?=InputComponent::render("id","id", "number", $user->id)?>
                     </div>
-                    
                     <div class="input-box">
                         <?=InputComponent::render("userName",'Nome de Usuario', "text", $user->userName, ["placeholder" => "digite aqui o nome"])?>
                     </div>

@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="vendor/twbs/bootstrap/dist/css/bootstrap.min.css">
     <script src="vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="vendor/twbs/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="icon" href="./imgs/generic/apple.png">
 </head>
 <header class="nav">
     <div class='center' style="width: 10%; height:100%">

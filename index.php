@@ -1,5 +1,6 @@
 
 <?php
+setlocale(LC_TIME, 'pt_BR.utf8');
 ob_start();
 require_once 'vendor/autoload.php';
 include './sys/helpers.php';
@@ -8,7 +9,7 @@ define('CSS_PATH', 'global.css');
 session_start();
 if($_SESSION){
 if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
-    include 'route.php';
+include 'route.php';
     exit();
 }else{
 include 'header.php';

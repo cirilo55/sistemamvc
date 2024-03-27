@@ -57,12 +57,21 @@ class UserController
     public function submitUpdate()
     {
         $user = new User();
+        $user->id = $_POST['id'];
         $user->userName = inputFormat($_POST['userName']) ;
         $user->lastName = inputFormat($_POST['lastName']);
         $user->userType = $_POST['role'];
 
         $data = $user->getData();
-        $user->update($_REQUEST['id'], $data);
+        $return = $user->update($_POST['id'], $data);
+
+        if($return)
+        {
+            $_SESSION['userName'] = $data['userName'];
+            $_SESSION['lastName'] = $data['lastName'];
+            
+        }
+
     }
     public function submitProfile()
     {

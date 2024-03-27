@@ -34,7 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $_SESSION['id'] = $user['id']; // Por exemplo, salve o ID do usuário na sessão
         $_SESSION['password'] = $user['password'];
-        $_SESSION['userName'] = $user['userName']; // Por exemplo, salve o ID do usuário na sessão
         $_SESSION['userName'] = $user['userName'];
         $_SESSION['lastName'] = $user['lastName'];
         $_SESSION['imagePath'] = $user['imagePath'];

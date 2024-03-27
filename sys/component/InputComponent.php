@@ -10,7 +10,7 @@ class InputComponent {
             $attributeString .= "$attr=\"$val\" ";
         }
         echo "<div class='input-label-component'>";
-        echo "<div class='hidden-$name' style='display:none'></div>";
+        echo "<input id='$name' class='hidden' style='display:none' value='$value' />";
         echo "<div class='flex'>";
         echo "<label>$label</label><div class='input-component-count'style='display:none'><div class='current-input'>0</div><div class='max-inputs'>/27</div></div>";
         echo "</div>";
@@ -26,6 +26,7 @@ class InputComponent {
         font-size: 18px;
         text-shadow: 1px 0px 0px rgba(42, 42, 42, .49);
         padding: 3px;
+
     }
 
     .input-label-component input {
@@ -35,6 +36,7 @@ class InputComponent {
         border-color: #fafafa;
         font-size: 14px;
         width: 100%;
+
     }
     .input-component-count{
         display: flex;
@@ -55,8 +57,13 @@ class InputComponent {
     }
 </style>
 <script>
+    $(document).ready(function() {
     $(".input-component").on('focus', function(){
-        $('.input-component-count').show();
-    })
+        let nameComponent = $('#<?= $name ?>').val();
 
+        alert(nameComponent);
+        $('.input-component-count').show();
+    });
+    })
 </script>
+

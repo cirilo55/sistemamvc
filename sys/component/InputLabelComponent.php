@@ -12,31 +12,58 @@ class InputLabelComponent{
             $attributeString .= "$attr=\"$val\" ";
 
         }
-        return "<div class='input-label-component'>
-                <div>
-                <label for=\"$label\" >$label</label>
-                </div>
-                <input type=\"$type\" name=\"$name\" value=\"$value\" $attributeString />
+        return "<div class='container'>
+                    <div class='input-label-component'>
+                        <div>
+                            <label for=\"$label\" >$label</label>
+                        </div>
+                            <input type=\"$type\" name=\"$name\" value=\"$value\" $attributeString />
+                    </div>
                 </div>
                 ";
     }
 }
 ?>
-<style>
+<style scoped>
+.container{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+
+}
 .input-label-component{
+    height: 42px;
+    width: 80%;
+
     border: 1px solid black; 
-    border-radius: 1px;
+    border-radius: 4px;
     font-size:18px;
     text-shadow:1px 0px 0px rgba(42,42,42,.49); 
-    height: 42px;
-    margin: 5px;
+    background-color: #DCDCDC;
+    transition: border-color 0.3s, color 0.3s;
+    padding: 5px;
+
+    &:focus-within{
+        border-color: blue;
+        label{
+            color: blue
+            
+        }
+    }
+    
 }
 .input-label-component input{
     border: 0 !important;
     text-shadow:1px 0px 0px rgba(42,42,42,.49); 
-    font-family:sans-serif; border-color:#fafafa;
+    font-family: sans-serif; 
+    border-color:#fafafa;
     font-size: 16px;
-    background-color: #f5f4f1;
+    width: 100%;
+    padding: 0;
+    background-color: #DCDCDC;
 
 }
 .input-label-component label
@@ -49,5 +76,9 @@ class InputLabelComponent{
     flex-direction: row-reverse;
     
 }
-.input-label-component input:focus { outline:none; } 
+.input-label-component input:focus {
+    outline: none; 
+}
+
+ 
 </style>
