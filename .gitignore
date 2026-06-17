@@ -5,3 +5,5 @@ vendor
 libs
 node_modules
 imgs/profile/*
+sys/logs/*
+!sys/logs/.gitignore

@@ -3,16 +3,16 @@
 namespace Sys;
 
 use PDO;
-use PDOException;
-use stdClass;
 use Sys\Database;
 
 class Model
 {
     private $db;
+    private static $columnsCache = [];
     protected $table;
     protected $id;
     protected $tableColumns;
+    protected $fillable = [];
     protected $inner = [];
     protected $left = [];
     protected $url;
@@ -34,52 +34,42 @@ class Model
     **/
     public function all($pagination=0)
     {
-        $orderBy = isset($_GET['orderby']) ? $orderBy = $_GET['orderby'] : NULL;
-        $orderType = isset($_GET['order-type']) ? $searchField = $_GET['order-type'] : NULL;
-
-        $searchBy = isset($_GET['grid-search-input']) ? $searchBy = $_GET['grid-search-input'] : NULL;
-        $searchField = isset($_GET['grid-combo']) ? $searchField = $_GET['grid-combo'] : NULL;
-
-        $order = '';
-        $search = '';
-        $limit = '';
-        if($pagination)
-        {
-            $limit = "LIMIT {$pagination}";
-        }
-
-        if($searchField)
-        {
-            $search .=  "WHERE {$searchField} LIKE '{$searchBy}'";
-        }
-
-        if($orderBy)
-        {
-           $order .= "ORDER BY {$orderBy}";
-           if($orderType == 'desc')
-           {
-             $order .= ' DESC';
-           }
-           if($orderType == 'asc')
-           {
-            $order .= ' ASC';
-           }
-        }
-
-        // var_dump($this->timestamps);die();
-
         $db = new Database();
-        $query = "SELECT * FROM {$this->table} {$search} {$order} {$limit}";
-        // var_dump($query);die();
+        $params = [];
+        $search = '';
+        $order = '';
+        $limit = '';
 
-        $stmt = $db->query($query, false);
+        $orderBy = $_GET['orderby'] ?? null;
+        $orderType = strtolower($_GET['order-type'] ?? '');
+        $searchBy = $_GET['grid-search-input'] ?? null;
+        $searchField = $_GET['grid-combo'] ?? null;
+
+        if ($searchField && $searchBy !== null && $searchBy !== '' && $this->isAllowedColumn($db, $searchField)) {
+            $search = "WHERE {$searchField} LIKE :search";
+            $params[':search'] = '%' . $searchBy . '%';
+        }
+
+        if ($orderBy && $this->isAllowedColumn($db, $orderBy)) {
+            $direction = $orderType === 'desc' ? 'DESC' : 'ASC';
+            $order = "ORDER BY {$orderBy} {$direction}";
+        }
+
+        if ($pagination) {
+            $limitValue = max(1, (int) $pagination);
+            $limit = "LIMIT {$limitValue}";
+        }
+
+        $query = "SELECT * FROM {$this->table} {$search} {$order} {$limit}";
+
+        $stmt = $db->prepareAndExecute($query, $params);
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
     
     public function findOld($id)
     {
         $db = new Database();
-        $stmt = $db->query("SELECT * FROM {$this->table} WHERE {$this->id} = {$id}", false);
+        $stmt = $db->prepareAndExecute("SELECT * FROM {$this->table} WHERE {$this->id} = :id", [':id' => $id]);
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
@@ -97,6 +87,10 @@ class Model
     public function findByField(string $field,$id)
     {
         $db = new Database();
+        if (!$this->isAllowedColumn($db, $field)) {
+            return [];
+        }
+
         $params = [':id' => $id];
         $stmt = $db->prepareAndExecute("SELECT * FROM {$this->table} WHERE $field = :id", $params);
         if ($stmt) {
@@ -108,38 +102,59 @@ class Model
     public function create($data)
     {
         $db = new Database();
-        $this->gererateTimestamp();
+        $data = $this->filterDataForTable($db, $data);
 
-        $data['createdAt'] = "'" . date('Y-m-d H:i:s') . "'";
+        if ($this->isAllowedColumn($db, 'createdAt') && !isset($data['createdAt'])) {
+            $data['createdAt'] = date('Y-m-d H:i:s');
+        }
+
+        if ($this->isAllowedColumn($db, 'updatedAt') && !isset($data['updatedAt'])) {
+            $data['updatedAt'] = date('Y-m-d H:i:s');
+        }
+
+        if (!$data) {
+            return false;
+        }
 
         $keys = array_keys($data);
-        $values = array_values($data);
-        $values = implode(',',$values);
-        $sql = "INSERT INTO {$this->table} (" . implode(',', $keys) . ") VALUES ($values)";
-        // var_dump($sql);die();
-        $stmt = $db->query($sql);
+        $placeholders = array_map(fn($key) => ':' . $key, $keys);
+        $params = [];
+
+        foreach ($data as $key => $value) {
+            $params[':' . $key] = $value;
+        }
+
+        $sql = "INSERT INTO {$this->table} (" . implode(',', $keys) . ") VALUES (" . implode(',', $placeholders) . ")";
+        $stmt = $db->prepareAndExecute($sql, $params);
 
         $db->saveQuery($sql);
-        return false;
+        return $stmt;
     }
 
     public function update($id, $data)
     {
         $db = new Database();
-        $this->gererateTimestamp();
-        // Adicionar o campo UpdatedAt e seu valor
-        $data['updatedAt'] =  date('Y-m-d H:i:s') ;
+        $data = $this->filterDataForTable($db, $data);
 
-        $sets = [];
-        
-        foreach ($data as $key => $value) {
-            // Check if the value is a string, and if so, enclose it in single quotes
-            $value = is_string($value) ? "'" . $value . "'" : $value;
-            $sets[] = "$key = $value";
+        if ($this->isAllowedColumn($db, 'updatedAt')) {
+            $data['updatedAt'] = date('Y-m-d H:i:s');
         }
 
-        $sql = "UPDATE $this->table SET " . implode(',', $sets) . " WHERE {$this->id} = {$id}";
-        $stmt = $db->query($sql);
+        if (!$data) {
+            return false;
+        }
+
+        $sets = [];
+        $params = [':id' => $id];
+        
+        foreach ($data as $key => $value) {
+            $placeholder = ':' . $key;
+            $sets[] = "$key = $placeholder";
+            $params[$placeholder] = $value;
+        }
+
+        $sql = "UPDATE $this->table SET " . implode(',', $sets) . " WHERE {$this->id} = :id";
+        $stmt = $db->prepareAndExecute($sql, $params);
         $db->saveQuery($sql);
         
         return $stmt;
@@ -172,7 +187,7 @@ class Model
     public function delete($id)
     {
         $db = new Database();
-        $stmt = $db->query("DELETE FROM {$this->table} WHERE {$this->id} = {$id}");
+        $stmt = $db->prepareAndExecute("DELETE FROM {$this->table} WHERE {$this->id} = :id", [':id' => $id]);
 
         return $stmt;
     }
@@ -274,8 +289,8 @@ class Model
     **/
     private function getRelatedData($db, $relatedTable, $foreignColumn, $relatedColumn): array
     {
-        $query = "SELECT * FROM $relatedTable WHERE $foreignColumn = {$relatedColumn}";
-        $stmt = $db->query($query);
+        $query = "SELECT * FROM $relatedTable WHERE $foreignColumn = :relatedColumn";
+        $stmt = $db->prepareAndExecute($query, [':relatedColumn' => $relatedColumn]);
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
@@ -294,23 +309,46 @@ class Model
 
     public function gererateTimestamp()
     {
-        $db = new Database();
+        return null;
+    }
 
-        $sql = "SHOW COLUMNS FROM {$this->table} LIKE 'createdAt'";
-        $result = $db->query($sql);
+    private function filterDataForTable(Database $db, array $data): array
+    {
+        $allowedColumns = $this->fillable ?: $this->getAllowedColumns($db);
+        $filtered = [];
 
-        if ($result->rowCount() === 0) {
-            $alterSql = "ALTER TABLE {$this->table} ADD createdAt DATETIME";
-            $db->query($alterSql);
+        foreach ($data as $key => $value) {
+            if ($key === $this->id && ($value === null || $value === '')) {
+                continue;
+            }
+
+            if (in_array($key, $allowedColumns, true)) {
+                $filtered[$key] = $value;
+            }
         }
 
-        $sql = "SHOW COLUMNS FROM {$this->table} LIKE 'updatedAt'";
-        $result = $db->query($sql);
+        return $filtered;
+    }
 
-        if ($result->rowCount() === 0) {
-            $alterSql = "ALTER TABLE {$this->table} ADD createdAt DATETIME";
-            $db->query($alterSql);
+    private function isAllowedColumn(Database $db, string $column): bool
+    {
+        return in_array($column, $this->getAllowedColumns($db), true);
+    }
+
+    private function getAllowedColumns(Database $db): array
+    {
+        if (!isset(self::$columnsCache[$this->table])) {
+            $stmt = $db->query("SHOW COLUMNS FROM {$this->table}");
+            $columns = [];
+
+            foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $column) {
+                $columns[] = $column['Field'];
+            }
+
+            self::$columnsCache[$this->table] = $columns;
         }
+
+        return self::$columnsCache[$this->table];
     }
 
 

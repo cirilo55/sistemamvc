@@ -1,13 +1,17 @@
-
 <?php
-setlocale(LC_TIME, 'pt_BR.utf8');
 ob_start();
-require_once 'vendor/autoload.php';
-include './sys/helpers.php';
+$app = require __DIR__ . '/sys/bootstrap.php';
 
 define('CSS_PATH', 'global.css');
-session_start();
-if($_SESSION){
+$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+if ($path === '/login') {
+    include 'route.php';
+    ob_end_flush();
+    exit();
+}
+
+if(!empty($_SESSION['id'])){
 if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
 include 'route.php';
     exit();
@@ -44,7 +48,7 @@ include 'header.php';
             <div id="overlay-sm" class="overlay">
             <div class='stage-popup-sm'>
 
-                <div class="popuphead"><?=$title ? $title : '';?>
+                <div class="popuphead"><?=isset($title) && $title ? $title : '';?>
                 <div class='title-popup-sm'></div>
                 <button id="close-overlay-sm" onclick="closeLevel2()">X</button>
                 </div>

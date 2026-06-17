@@ -26,14 +26,14 @@ class UserController
 
     public function add()
     {
-        include dirname(__FILE__, 2).'\view\users\add.phtml';
+        include dirname(__FILE__, 2) . '/view/users/add.phtml';
         
     }
     public function edit($id)
     {
         $mod = new User();
         $user = $mod ->findOld($id);
-        include dirname(__FILE__, 2).'\view\users\edit.phtml';
+        include dirname(__FILE__, 2) . '/view/users/edit.phtml';
         
     }
 
@@ -102,7 +102,7 @@ class UserController
         $nameType = array('Administrador', 'Usuario', 'Visitante');
         $user->userType = $nameType[$user->userType];
 
-        include dirname(__FILE__, 2).'\view\users\profile.phtml';
+        include dirname(__FILE__, 2) . '/view/users/profile.phtml';
     }
 
 

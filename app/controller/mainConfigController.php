@@ -13,8 +13,7 @@ class MainConfigController
 
         $title = "list User";
         
-        var_dump($config);
-        include dirname(__FILE__, 2).'\view\MainConfig\index.phtml';
+        include dirname(__FILE__, 2) . '/view/pages/MainConfig/index.phtml';
     }
 
 }

@@ -1,8 +1,8 @@
 <html>
 <head>
-    <title><?php echo $title; 
-    $profile = $_SESSION['profile'] ? $_SESSION['profile'] : 'noProfile.png'
-    
+    <title><?php
+    echo $title ?? 'My Profile';
+    $profile = $_SESSION['profile'] ? $_SESSION['profile'] : 'noProfile.png';
     ?></title>
 </head>
 <body>
@@ -21,7 +21,7 @@
             <div class='profile-border'>
                 <label for="fileToUpload">
                     <input type="file" name="fileToUpload" id="fileToUpload" style="display: none;" onchange="uploadProfile()">
-                    <img class='profile-img' id="imagePreview" src="./../../../imgs/profile/<?=$_SESSION['profile']?>" alt="Profile Pic" width="400" height="400" onclick="document.getElementById('fileToUpload').click();">
+                    <img class='profile-img' id="imagePreview" src="./../../../imgs/profile/<?=$profile?>" alt="Profile Pic" width="400" height="400" onclick="document.getElementById('fileToUpload').click();">
                 </label>
             </div>
         </form>

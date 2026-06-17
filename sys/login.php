@@ -21,7 +21,7 @@ use Sys\Component\InputLabelComponent;
         </div>
         <div class="line"></div>
 
-        <form action="/sys/process_login.php" method="post">
+        <form action="/login" method="post">
 
             <?= InputLabelComponent::render('Usuario', 'text', 'username') ?>
             <?= InputLabelComponent::render('Senha', 'password', 'password') ?>

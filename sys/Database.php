@@ -8,6 +8,7 @@ use PDOException;
 class Database
 {
     public $host;
+    public $port;
     public $dbname;
     public $user;
     public $password;
@@ -15,16 +16,33 @@ class Database
 
     public function __construct()
     {
-        // Carrega as variáveis de ambiente do arquivo .env
         $envPath = realpath(dirname(__FILE__, 2) . '/.env');
-        // var_dump(dirname(__FILE__, 2));die();
-        $env = parse_ini_file($envPath);
-        // var_dump($env);
-        $this->host = $env['DB_HOST'];
-        $this->dbname = $env['DB_DATABASE'];
-        $this->user = $env['DB_USERNAME'];
-        $this->password = $env['DB_PASSWORD'];
-        // var_dump("host=$this->host;dbname=$this->dbname", $this->user, $this->password);die();
+        $env = $envPath ? parse_ini_file($envPath) : [];
+
+        $this->host = $this->getConfigValue('DB_HOST', $env, 'localhost');
+        $this->dbname = $this->getConfigValue('DB_DATABASE', $env, '');
+        $this->user = $this->getConfigValue('DB_USERNAME', $env, 'root');
+        $this->password = $this->getConfigValue('DB_PASSWORD', $env, '');
+        $this->port = $this->getConfigValue('DB_PORT', $env, '3306');
+    }
+
+    private function getConfigValue(string $key, array $env, string $default = ''): string
+    {
+        $value = getenv($key);
+
+        if ($value !== false && $value !== '') {
+            return $value;
+        }
+
+        if (isset($_ENV[$key]) && $_ENV[$key] !== '') {
+            return $_ENV[$key];
+        }
+
+        if (isset($env[$key]) && $env[$key] !== '') {
+            return trim((string) $env[$key]);
+        }
+
+        return $default;
     }
 
     public function connect()
@@ -32,11 +50,12 @@ class Database
         // var_dump($this->pdo);die();
         if (!$this->pdo) {
             try {
-                $this->pdo = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->user, $this->password);
+                $dsn = "mysql:host=$this->host;port=$this->port;dbname=$this->dbname;charset=utf8mb4";
+                $this->pdo = new PDO($dsn, $this->user, $this->password);
                 $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             } catch (PDOException $e) {
-                echo 'Erro ao conectar com o banco de dados: ' . $e->getMessage();
-                exit();
+                error_log('Erro ao conectar com o banco de dados: ' . $e->getMessage());
+                throw $e;
             }
         }
 
@@ -49,15 +68,15 @@ class Database
             $stmt = $this->connect()->prepare($query);
 
             foreach ($params as $paramName => $paramValue) {
-                $stmt->bindParam($paramName, $paramValue);
+                $stmt->bindValue($paramName, $paramValue);
             }
 
             $stmt->execute();
             
             return $stmt;
         } catch (PDOException $e) {
-            echo $query . 'Erro na consulta: ' . $e->getMessage();
-            return null;
+            error_log('Erro na consulta: ' . $e->getMessage());
+            throw $e;
         }
     }
 
@@ -68,8 +87,8 @@ class Database
         $stmt->execute();
         return $stmt;
         } catch (PDOException $e) {
-            echo $query.'Erro na consulta: ' . $e->getMessage();
-            return null;
+            error_log('Erro na consulta: ' . $e->getMessage());
+            throw $e;
         }
 
     }
@@ -90,8 +109,6 @@ class Database
         $query = substr($query, 0, 500); // limita a consulta a 500 caracteres
         $date = date('Y-m-d H:i:s');
 
-        $query = addslashes($query);
-
         $sql = "INSERT INTO query_history (query_date, query_sql) VALUES (:date, :query)";
         $params = array(':date' => $date, ':query' => $query);        
 
@@ -100,7 +117,6 @@ class Database
 
     public function executeSaveQuery($query)
     {
-        var_dump($query);
         $stmt = $this->connect()->prepare($query);
         $stmt->execute();
         return $stmt;

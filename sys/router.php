@@ -1,6 +1,8 @@
 <?php
 namespace Sys;
 
+use Sys\Http\Request;
+use Sys\Http\Response;
 
 class Router
 {
@@ -15,18 +17,27 @@ class Router
         ];
     }
 
-    public function handleRequest()
+    public function handleRequest(?Request $request = null)
     {
-        $method = $_SERVER['REQUEST_METHOD'];
-        $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $request = $request ?? Request::capture();
+        $method = $request->method();
+        $path = $request->uri();
+
         foreach ($this->routes as $route) {
-            $pattern = '#^' . preg_replace('#\{:\w+\}#', '(\w+)', $route['path']) . '$#';
+            $pattern = '#^' . preg_replace('#\{:\w+\}#', '([^/]+)', $route['path']) . '$#';
             if (preg_match($pattern, $path, $matches) && $route['method'] === $method) {
                 array_shift($matches); // Remove o primeiro item que corresponde ao caminho completo
                 $callback = $route['callback'];
-                call_user_func_array($callback, $matches);
+                $response = call_user_func_array($callback, $matches);
+
+                if ($response instanceof Response) {
+                    $response->send();
+                }
+
                 return;
             }
         }
+
+        Response::html('Página não encontrada.', 404)->send();
     }
 }

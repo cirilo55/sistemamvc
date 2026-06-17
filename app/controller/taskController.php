@@ -25,7 +25,7 @@ class TaskController
         $model = new User();
         $users = $model->all();
         $users = convertArrayOfObjectToArray($users,'id', 'userName');
-        include dirname(__FILE__, 2).'\view\task\add.phtml';
+        include dirname(__FILE__, 2) . '/view/Task/add.phtml';
         
     }
     public function submitForm()

@@ -7,7 +7,7 @@
 <div class="login-screen">
     <div class="container-login">    
         <h1>Login</h1>
-        <form action="/sys/process_login.php" method="post">
+        <form action="/login" method="post">
 
             <div class="input-label-component">
             <div>
