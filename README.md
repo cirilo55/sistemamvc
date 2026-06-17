@@ -124,6 +124,28 @@ Run a basic route/login smoke test:
 sh scripts/smoke-test.sh
 ```
 
+Run the first ORM learning check:
+
+```bash
+docker compose exec app php scripts/test-orm-user.php
+```
+
+ORM Learning Slice
+------------------
+
+The first ORM slice lives under `sys/Orm/` and uses `app/Entity/User.php` as the
+pilot entity. The login flow now follows:
+
+```text
+AuthController -> AuthService -> UserRepository -> EntityRepository -> QueryBuilder -> Database
+```
+
+This keeps controllers away from SQL while preserving the older `Sys\Model`
+classes for existing grids and screens. Future Entity Framework-inspired
+improvements can add a small `DbContext`, Unit of Work transactions, attributes
+for mapping, and change tracking after the current repository/query builder path
+is stable.
+
 Architecture Direction
 ----------------------
 

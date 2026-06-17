@@ -4,8 +4,10 @@ namespace Sys;
 
 use PDO;
 use PDOException;
+use PDOStatement;
+use Sys\Orm\ConnectionInterface;
 
-class Database
+class Database implements ConnectionInterface
 {
     public $host;
     public $port;
@@ -62,7 +64,7 @@ class Database
         return $this->pdo;
     }
 
-    public function prepareAndExecute($query, $params = [])
+    public function prepareAndExecute(string $query, array $params = []): PDOStatement
     {
         try {
             $stmt = $this->connect()->prepare($query);
@@ -99,7 +101,7 @@ class Database
         return $stmt->execute($params);
     }
 
-    public function lastInsertId()
+    public function lastInsertId(): string
     {
         return $this->connect()->lastInsertId();
     }

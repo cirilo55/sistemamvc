@@ -29,11 +29,11 @@ class AuthController
 
         session_regenerate_id(true);
 
-        $_SESSION['id'] = $user['id'];
-        $_SESSION['userName'] = $user['userName'];
-        $_SESSION['lastName'] = $user['lastName'];
-        $_SESSION['imagePath'] = $user['imagePath'] ?? null;
-        $_SESSION['profile'] = $user['imagePath'] ?? null;
+        $_SESSION['id'] = $user->id;
+        $_SESSION['userName'] = $user->userName;
+        $_SESSION['lastName'] = $user->lastName;
+        $_SESSION['imagePath'] = $user->imagePath;
+        $_SESSION['profile'] = $user->imagePath;
 
         header('Location: /');
         exit();

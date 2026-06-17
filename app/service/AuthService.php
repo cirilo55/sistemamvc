@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\User;
 use App\Repository\UserRepository;
 
 class AuthService
@@ -10,11 +11,11 @@ class AuthService
     {
     }
 
-    public function attempt(string $username, string $password): ?array
+    public function attempt(string $username, string $password): ?User
     {
         $user = $this->users->findByUsername($username);
 
-        if (!$user || !password_verify($password, $user['password'])) {
+        if (!$user || !password_verify($password, $user->password)) {
             return null;
         }
 

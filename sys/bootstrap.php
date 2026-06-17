@@ -6,6 +6,10 @@ use Sys\Container;
 use Sys\Database;
 use Sys\ErrorHandler;
 use Sys\Logger;
+use Sys\Orm\ConnectionInterface;
+use Sys\Orm\EntityMapper;
+use Sys\Orm\EntityRepository;
+use App\Entity\UserMetadata;
 use App\Repository\UserRepository;
 use App\Service\AuthService;
 
@@ -17,6 +21,7 @@ require_once __DIR__ . '/Autoloader.php';
 
 $autoloader = new Autoloader();
 $autoloader->addNamespace('App\\Controller', BASE_PATH . '/app/controller');
+$autoloader->addNamespace('App\\Entity', BASE_PATH . '/app/Entity');
 $autoloader->addNamespace('App\\Model', BASE_PATH . '/app/model');
 $autoloader->addNamespace('App\\Repository', BASE_PATH . '/app/repository');
 $autoloader->addNamespace('App\\Service', BASE_PATH . '/app/service');
@@ -34,7 +39,15 @@ $container = new Container();
 $container->set(Config::class, fn() => $config);
 $container->set(Logger::class, fn() => $logger);
 $container->set(Database::class, fn() => new Database());
-$container->set(UserRepository::class, fn(Container $container) => new UserRepository($container->get(Database::class)));
+$container->set(ConnectionInterface::class, fn(Container $container) => $container->get(Database::class));
+$container->set(EntityMapper::class, fn() => new EntityMapper());
+$container->set('orm.metadata.user', fn() => UserMetadata::make());
+$container->set('orm.repository.user', fn(Container $container) => new EntityRepository(
+    $container->get(ConnectionInterface::class),
+    $container->get(EntityMapper::class),
+    $container->get('orm.metadata.user')
+));
+$container->set(UserRepository::class, fn(Container $container) => new UserRepository($container->get('orm.repository.user')));
 $container->set(AuthService::class, fn(Container $container) => new AuthService($container->get(UserRepository::class)));
 
 if (session_status() !== PHP_SESSION_ACTIVE) {
