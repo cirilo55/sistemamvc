@@ -1,0 +1,10 @@
+<?php
+
+use Sys\Console\ConsoleApplication;
+
+$app = require __DIR__ . '/sys/bootstrap.php';
+
+/** @var ConsoleApplication $console */
+$console = $app['container']->get(ConsoleApplication::class);
+
+exit($console->run($argv));

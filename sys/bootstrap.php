@@ -3,7 +3,14 @@
 use Sys\Autoloader;
 use Sys\Config;
 use Sys\Container;
+use Sys\Console\Commands\MigrateCommand;
+use Sys\Console\Commands\MigrateFreshCommand;
+use Sys\Console\Commands\MigrateRollbackCommand;
+use Sys\Console\Commands\SeedCommand;
+use Sys\Console\ConsoleApplication;
 use Sys\Database;
+use Sys\Database\Migrations\MigrationRepository;
+use Sys\Database\Migrations\Migrator;
 use Sys\Database\Seeding\DatabaseSeeder;
 use Sys\Database\Seeders\ClientSeeder;
 use Sys\Database\Seeders\MainConfigSeeder;
@@ -46,12 +53,24 @@ $container->set(Config::class, fn() => $config);
 $container->set(Logger::class, fn() => $logger);
 $container->set(Database::class, fn() => new Database());
 $container->set(ConnectionInterface::class, fn(Container $container) => $container->get(Database::class));
+$container->set(MigrationRepository::class, fn(Container $container) => new MigrationRepository($container->get(ConnectionInterface::class)));
+$container->set(Migrator::class, fn(Container $container) => new Migrator(
+    $container->get(ConnectionInterface::class),
+    $container->get(MigrationRepository::class),
+    BASE_PATH . '/database/migrations'
+));
 $container->set(DatabaseSeeder::class, fn(Container $container) => new DatabaseSeeder([
     new UserSeeder($container->get(ConnectionInterface::class)),
     new SystemModuleSeeder($container->get(ConnectionInterface::class)),
     new ModuleItemSeeder($container->get(ConnectionInterface::class)),
     new ClientSeeder($container->get(ConnectionInterface::class)),
     new MainConfigSeeder($container->get(ConnectionInterface::class)),
+]));
+$container->set(ConsoleApplication::class, fn(Container $container) => new ConsoleApplication([
+    new MigrateCommand($container->get(Migrator::class), $container->get(DatabaseSeeder::class)),
+    new MigrateFreshCommand($container->get(Migrator::class), $container->get(DatabaseSeeder::class)),
+    new MigrateRollbackCommand($container->get(Migrator::class)),
+    new SeedCommand($container->get(DatabaseSeeder::class)),
 ]));
 $container->set(EntityMapper::class, fn() => new EntityMapper());
 $container->set('orm.metadata.user', fn() => UserMetadata::make());

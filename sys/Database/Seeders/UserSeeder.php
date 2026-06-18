@@ -6,7 +6,7 @@ use Sys\Database\Seeding\AbstractSeeder;
 
 class UserSeeder extends AbstractSeeder
 {
-    public function run(): void
+    public function run(): string
     {
         $users = [
             [
@@ -21,7 +21,9 @@ class UserSeeder extends AbstractSeeder
         ];
 
         foreach ($users as $user) {
-            $this->upsert('users', $user, ['userName', 'lastName', 'userType', 'password', 'updatedAt']);
+            $this->save('users', $user, ['userName', 'lastName', 'userType', 'password', 'updatedAt']);
         }
+
+        return 'Users seeded with ORM.';
     }
 }

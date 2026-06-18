@@ -11,10 +11,17 @@ class DatabaseSeeder
     {
     }
 
-    public function run(): void
+    /**
+     * @return list<string>
+     */
+    public function run(): array
     {
+        $messages = [];
+
         foreach ($this->seeders as $seeder) {
-            $seeder->run();
+            $messages[] = $seeder->run();
         }
+
+        return $messages;
     }
 }

@@ -6,7 +6,7 @@ use Sys\Database\Seeding\AbstractSeeder;
 
 class SystemModuleSeeder extends AbstractSeeder
 {
-    public function run(): void
+    public function run(): string
     {
         $modules = [
             ['id' => '10000000-0000-4000-8000-000000000001', 'moduleName' => 'Operacional', 'order' => 1],
@@ -15,7 +15,9 @@ class SystemModuleSeeder extends AbstractSeeder
         ];
 
         foreach ($modules as $module) {
-            $this->upsert('systemModule', $module, ['moduleName', 'order']);
+            $this->save('systemModule', $module, ['moduleName', 'order']);
         }
+
+        return 'System modules seeded with ORM.';
     }
 }

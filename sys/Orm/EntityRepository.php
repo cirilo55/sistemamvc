@@ -54,13 +54,14 @@ class EntityRepository
 
         $columns = array_keys($data);
         $placeholders = array_map(fn(string $column) => ':' . $column, $columns);
+        $quotedColumns = array_map(fn(string $column) => $this->quoteIdentifier($column), $columns);
         $params = [];
 
         foreach ($data as $column => $value) {
             $params[':' . $column] = $value;
         }
 
-        $sql = "INSERT INTO {$this->metadata->table} (" . implode(', ', $columns) . ') VALUES (' . implode(', ', $placeholders) . ')';
+        $sql = 'INSERT INTO ' . $this->quoteIdentifier($this->metadata->table) . ' (' . implode(', ', $quotedColumns) . ') VALUES (' . implode(', ', $placeholders) . ')';
         $this->connection->prepareAndExecute($sql, $params);
 
         return $this->findOrFail($data[$this->metadata->primaryKey] ?? $this->connection->lastInsertId());
@@ -79,18 +80,18 @@ class EntityRepository
 
         foreach ($data as $column => $value) {
             $placeholder = ':' . $column;
-            $sets[] = "{$column} = {$placeholder}";
+            $sets[] = $this->quoteIdentifier($column) . " = {$placeholder}";
             $params[$placeholder] = $value;
         }
 
-        $sql = "UPDATE {$this->metadata->table} SET " . implode(', ', $sets) . " WHERE {$this->metadata->primaryKey} = :id";
+        $sql = 'UPDATE ' . $this->quoteIdentifier($this->metadata->table) . ' SET ' . implode(', ', $sets) . ' WHERE ' . $this->quoteIdentifier($this->metadata->primaryKey) . ' = :id';
 
         return $this->connection->prepareAndExecute($sql, $params)->rowCount() > 0;
     }
 
     public function delete(int|string $id): bool
     {
-        $sql = "DELETE FROM {$this->metadata->table} WHERE {$this->metadata->primaryKey} = :id";
+        $sql = 'DELETE FROM ' . $this->quoteIdentifier($this->metadata->table) . ' WHERE ' . $this->quoteIdentifier($this->metadata->primaryKey) . ' = :id';
 
         return $this->connection->prepareAndExecute($sql, [':id' => $id])->rowCount() > 0;
     }
@@ -219,5 +220,10 @@ class EntityRepository
         }
 
         return $filtered;
+    }
+
+    private function quoteIdentifier(string $identifier): string
+    {
+        return '`' . str_replace('`', '``', $identifier) . '`';
     }
 }

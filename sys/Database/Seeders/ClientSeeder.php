@@ -6,7 +6,7 @@ use Sys\Database\Seeding\AbstractSeeder;
 
 class ClientSeeder extends AbstractSeeder
 {
-    public function run(): void
+    public function run(): string
     {
         $clients = [
             [
@@ -24,7 +24,9 @@ class ClientSeeder extends AbstractSeeder
         ];
 
         foreach ($clients as $client) {
-            $this->upsert('clients', $client, ['clientName', 'updatedAt']);
+            $this->save('clients', $client, ['clientName', 'updatedAt']);
         }
+
+        return 'Clients seeded with ORM.';
     }
 }

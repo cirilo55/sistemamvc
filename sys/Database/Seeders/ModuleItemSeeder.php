@@ -6,7 +6,7 @@ use Sys\Database\Seeding\AbstractSeeder;
 
 class ModuleItemSeeder extends AbstractSeeder
 {
-    public function run(): void
+    public function run(): string
     {
         $items = [
             [
@@ -36,7 +36,9 @@ class ModuleItemSeeder extends AbstractSeeder
         ];
 
         foreach ($items as $item) {
-            $this->upsert('moduleItem', $item, ['itemName', 'idModulo', 'archorValue']);
+            $this->save('moduleItem', $item, ['itemName', 'idModulo', 'archorValue']);
         }
+
+        return 'Module items seeded with ORM.';
     }
 }

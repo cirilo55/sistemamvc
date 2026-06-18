@@ -33,7 +33,7 @@ class QueryBuilder
         $this->assertOperatorAllowed($operator);
 
         $parameter = ':p' . $this->paramIndex++;
-        $this->wheres[] = "{$field} {$operator} {$parameter}";
+        $this->wheres[] = $this->quoteIdentifier($field) . " {$operator} {$parameter}";
         $this->params[$parameter] = $value;
 
         return $this;
@@ -48,7 +48,7 @@ class QueryBuilder
             throw new InvalidArgumentException('Order direction must be ASC or DESC.');
         }
 
-        $this->orders[] = "{$field} {$direction}";
+        $this->orders[] = $this->quoteIdentifier($field) . " {$direction}";
 
         return $this;
     }
@@ -85,7 +85,7 @@ class QueryBuilder
 
     public function count(): int
     {
-        $sql = "SELECT COUNT(*) AS aggregate FROM {$this->metadata->table}" . $this->whereSql();
+        $sql = 'SELECT COUNT(*) AS aggregate FROM ' . $this->quoteIdentifier($this->metadata->table) . $this->whereSql();
         $stmt = $this->connection->prepareAndExecute($sql, $this->params);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -109,7 +109,7 @@ class QueryBuilder
 
     public function toSql(): string
     {
-        $sql = "SELECT * FROM {$this->metadata->table}" . $this->whereSql();
+        $sql = 'SELECT * FROM ' . $this->quoteIdentifier($this->metadata->table) . $this->whereSql();
 
         if ($this->orders) {
             $sql .= ' ORDER BY ' . implode(', ', $this->orders);
@@ -145,5 +145,10 @@ class QueryBuilder
         if (!in_array($operator, ['=', '!=', '<>', '>', '>=', '<', '<=', 'LIKE'], true)) {
             throw new InvalidArgumentException("Operator {$operator} is not supported.");
         }
+    }
+
+    private function quoteIdentifier(string $identifier): string
+    {
+        return '`' . str_replace('`', '``', $identifier) . '`';
     }
 }

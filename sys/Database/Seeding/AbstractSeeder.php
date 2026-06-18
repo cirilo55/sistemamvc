@@ -4,6 +4,9 @@ namespace Sys\Database\Seeding;
 
 use InvalidArgumentException;
 use Sys\Orm\ConnectionInterface;
+use Sys\Orm\EntityMapper;
+use Sys\Orm\EntityMetadata;
+use Sys\Orm\EntityRepository;
 
 abstract class AbstractSeeder implements SeederInterface
 {
@@ -12,34 +15,29 @@ abstract class AbstractSeeder implements SeederInterface
     }
 
     /**
-     * Idempotent insert/update helper for seed data.
-     *
-     * Seeds should be safe to run more than once. MySQL's ON DUPLICATE KEY keeps
-     * this simple while the framework is still in the learning stage.
+     * Idempotent ORM save helper for seed data.
      */
-    protected function upsert(string $table, array $row, array $updateColumns): void
+    protected function save(string $table, array $row, array $updateColumns): object
     {
         if ($row === []) {
             throw new InvalidArgumentException('Seed row cannot be empty.');
         }
 
-        $columns = array_keys($row);
-        $placeholders = array_map(fn(string $column) => ':' . $column, $columns);
-        $updates = array_map(fn(string $column) => $this->quoteIdentifier($column) . ' = VALUES(' . $this->quoteIdentifier($column) . ')', $updateColumns);
-        $params = [];
-
-        foreach ($row as $column => $value) {
-            $params[':' . $column] = $value;
+        if (!array_key_exists('id', $row)) {
+            throw new InvalidArgumentException('Seed row must contain an id.');
         }
 
-        $quotedColumns = array_map(fn(string $column) => $this->quoteIdentifier($column), $columns);
-        $sql = 'INSERT INTO ' . $this->quoteIdentifier($table) . ' (' . implode(', ', $quotedColumns) . ') VALUES (' . implode(', ', $placeholders) . ')';
+        $repository = $this->repository($table, array_keys($row));
+        $existing = $repository->find($row['id']);
 
-        if ($updates !== []) {
-            $sql .= ' ON DUPLICATE KEY UPDATE ' . implode(', ', $updates);
+        if ($existing === null) {
+            return $repository->create($row);
         }
 
-        $this->connection->prepareAndExecute($sql, $params);
+        $updates = array_intersect_key($row, array_flip($updateColumns));
+        $repository->update($row['id'], $updates);
+
+        return $repository->findOrFail($row['id']);
     }
 
     protected function now(): string
@@ -47,8 +45,22 @@ abstract class AbstractSeeder implements SeederInterface
         return date('Y-m-d H:i:s');
     }
 
-    private function quoteIdentifier(string $identifier): string
+    /**
+     * @param list<string> $fields
+     */
+    private function repository(string $table, array $fields): EntityRepository
     {
-        return '`' . str_replace('`', '``', $identifier) . '`';
+        return new EntityRepository(
+            $this->connection,
+            new EntityMapper(),
+            new EntityMetadata(
+                entityClass: \stdClass::class,
+                table: $table,
+                primaryKey: 'id',
+                fields: $fields,
+                fillable: array_values(array_filter($fields, fn(string $field) => $field !== 'id')),
+                usesUuidPrimaryKey: true
+            )
+        );
     }
 }
