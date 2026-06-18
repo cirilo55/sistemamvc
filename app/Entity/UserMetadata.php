@@ -38,7 +38,8 @@ class UserMetadata
                 'imagePath',
                 'createdAt',
                 'updatedAt',
-            ]
+            ],
+            usesUuidPrimaryKey: true
         );
     }
 }

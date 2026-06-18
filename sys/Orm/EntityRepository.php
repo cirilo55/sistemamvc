@@ -42,6 +42,10 @@ class EntityRepository
 
     public function create(array $data): object
     {
+        if ($this->metadata->usesUuidPrimaryKey && empty($data[$this->metadata->primaryKey])) {
+            $data[$this->metadata->primaryKey] = Uuid::v4();
+        }
+
         $data = $this->filterFillable($data);
 
         if (!$data) {
@@ -59,7 +63,7 @@ class EntityRepository
         $sql = "INSERT INTO {$this->metadata->table} (" . implode(', ', $columns) . ') VALUES (' . implode(', ', $placeholders) . ')';
         $this->connection->prepareAndExecute($sql, $params);
 
-        return $this->findOrFail($this->connection->lastInsertId());
+        return $this->findOrFail($data[$this->metadata->primaryKey] ?? $this->connection->lastInsertId());
     }
 
     public function update(int|string $id, array $data): bool
@@ -203,6 +207,11 @@ class EntityRepository
 
         foreach ($data as $field => $value) {
             $this->metadata->assertFieldAllowed($field);
+
+            if ($field === $this->metadata->primaryKey && $this->metadata->usesUuidPrimaryKey) {
+                $filtered[$field] = $value;
+                continue;
+            }
 
             if ($this->metadata->isFillable($field)) {
                 $filtered[$field] = $value;

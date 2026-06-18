@@ -112,7 +112,11 @@ class GridComponent
     {
         //vai pegar o nome do id;
         foreach ($data as $row) {
-            echo "<tr class='grid-row' ondblclick=jsEdit(".$row->{$idKey}.")>";
+            $rowId = (string) $row->{$idKey};
+            $jsId = htmlspecialchars(json_encode($rowId), ENT_QUOTES, 'UTF-8');
+            $htmlId = htmlspecialchars($rowId, ENT_QUOTES, 'UTF-8');
+
+            echo "<tr class='grid-row' ondblclick='jsEdit({$jsId})'>";
 
             foreach ($columns as $columnName  => $columnLabel) {
                 if(!($columnName == 'edit' || $columnName == 'delete')){
@@ -121,10 +125,10 @@ class GridComponent
             }
             
             if (isset($columns['edit'])) {
-                echo '<td>' . "<button class='btn-icon' id='btn-edit" . $row->{$idKey} . "' onclick='jsEdit(" . $row->{$idKey} . ")'><i class='bi bi-pencil-square'></i></button>" . '</td>';
+                echo '<td>' . "<button class='btn-icon' id='btn-edit{$htmlId}' onclick='jsEdit({$jsId})'><i class='bi bi-pencil-square'></i></button>" . '</td>';
             }
             if (isset($columns['delete'])) {
-                echo '<td>' . "<button class='btn-icon' id='btn-delete" . $row->{$idKey} . "' onclick='jsDelete(" . $row->{$idKey} . ")'><i class='bi bi-trash'></i></button>" . '</td>';
+                echo '<td>' . "<button class='btn-icon' id='btn-delete{$htmlId}' onclick='jsDelete({$jsId})'><i class='bi bi-trash'></i></button>" . '</td>';
             }
             echo '</tr>';
         }

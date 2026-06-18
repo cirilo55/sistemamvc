@@ -10,7 +10,7 @@ namespace App\Entity;
  */
 class User
 {
-    public ?int $id = null;
+    public ?string $id = null;
     public string $userName;
     public ?string $lastName = null;
     public ?string $userEmail = null;

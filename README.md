@@ -96,6 +96,17 @@ docker compose down -v
 docker compose up -d
 ```
 
+Apply seed data manually:
+
+```bash
+sh scripts/seed-database.sh
+```
+
+The schema lives in `sys/database/db.sql`. Seed data lives in PHP classes under
+`sys/Database/Seeders/` and is orchestrated by `Sys\Database\Seeding\DatabaseSeeder`.
+Keeping schema and data separate makes it easier to recreate the database
+structure without mixing it with development data.
+
 View application logs:
 
 ```bash

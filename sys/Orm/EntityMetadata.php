@@ -22,7 +22,8 @@ class EntityMetadata
         public readonly string $table,
         public readonly string $primaryKey,
         public readonly array $fields,
-        public readonly array $fillable
+        public readonly array $fillable,
+        public readonly bool $usesUuidPrimaryKey = false
     ) {
     }
 

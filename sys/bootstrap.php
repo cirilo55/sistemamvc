@@ -4,6 +4,12 @@ use Sys\Autoloader;
 use Sys\Config;
 use Sys\Container;
 use Sys\Database;
+use Sys\Database\Seeding\DatabaseSeeder;
+use Sys\Database\Seeders\ClientSeeder;
+use Sys\Database\Seeders\MainConfigSeeder;
+use Sys\Database\Seeders\ModuleItemSeeder;
+use Sys\Database\Seeders\SystemModuleSeeder;
+use Sys\Database\Seeders\UserSeeder;
 use Sys\ErrorHandler;
 use Sys\Logger;
 use Sys\Orm\ConnectionInterface;
@@ -40,6 +46,13 @@ $container->set(Config::class, fn() => $config);
 $container->set(Logger::class, fn() => $logger);
 $container->set(Database::class, fn() => new Database());
 $container->set(ConnectionInterface::class, fn(Container $container) => $container->get(Database::class));
+$container->set(DatabaseSeeder::class, fn(Container $container) => new DatabaseSeeder([
+    new UserSeeder($container->get(ConnectionInterface::class)),
+    new SystemModuleSeeder($container->get(ConnectionInterface::class)),
+    new ModuleItemSeeder($container->get(ConnectionInterface::class)),
+    new ClientSeeder($container->get(ConnectionInterface::class)),
+    new MainConfigSeeder($container->get(ConnectionInterface::class)),
+]));
 $container->set(EntityMapper::class, fn() => new EntityMapper());
 $container->set('orm.metadata.user', fn() => UserMetadata::make());
 $container->set('orm.repository.user', fn(Container $container) => new EntityRepository(
